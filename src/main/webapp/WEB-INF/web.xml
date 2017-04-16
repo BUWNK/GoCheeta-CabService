@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee   http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+    <display-name>Spring3 MVC Application</display-name>
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    <listener>
+        <description>Context Listener</description>
+        <listener-class>com.avn.ccl.util.listener.ContextListener</listener-class>
+    </listener>
+    <!-- START TEST -->
+    <context-param>
+        <description>Web Service URL For Savings Proxy LK</description>
+        <param-name>service_savings_proxy_lk</param-name>
+        <param-value>http://192.168.200.33:8280/services/SavingsProxyLK</param-value>
+    </context-param>
+    <context-param>
+        <description>Web Service URL For Savings Read Proxy LK</description>
+        <param-name>service_savings_read_proxy_lk</param-name>
+        <param-value>http://192.168.200.33:8280/services/SavingsReadProxyLK</param-value>
+    </context-param>
+<!--    <context-param>
+        <description>Web Service URL For Admin Management Read DSLK</description>
+        <param-name>service_admin_management_read_dslk</param-name>
+        <param-value>http://192.168.200.33:8280/services/AdminMgtReadDSLK</param-value>
+    </context-param>
+    <context-param>
+        <description>Web Service URL For LDAP Login</description>
+        <param-name>service_ldap_login</param-name>
+        <param-value>https://192.168.200.33:8243/services/AuthenticationAdmin</param-value>
+    </context-param>-->
+    <!-- live -->
+    <context-param>
+        <description>Web Service URL For Admin Management Read DSLK</description>
+        <param-name>service_admin_management_read_dslk</param-name>
+        <param-value>http://192.168.2.86:8280/services/AdminMgtReadDSLK</param-value>
+    </context-param>
+    <context-param>
+        <description>Web Service URL For LDAP Login</description>
+        <param-name>service_ldap_login</param-name>
+        <param-value>https://192.168.2.86:8243/services/AuthenticationAdmin</param-value>
+    </context-param>
+    <!-- live -->
+    <!-- END TEST -->
+    <context-param>
+        <description>Temporary Report Build Path</description>
+        <param-name>temp_report_build_location</param-name>
+        <param-value>report</param-value>
+    </context-param>
+    <context-param>
+        <description>Number Of Rows Per Excel Report</description>
+        <param-name>number_of_rows_per_excel</param-name>
+        <param-value>65000</param-value>
+    </context-param>
+    <context-param>
+        <description>Number Of Rows Per one Select Statement in Reports</description>
+        <param-name>number_of_select_rows</param-name>
+        <param-value>5000</param-value>
+    </context-param>
+    <context-param>
+        <description>Number of max pages per pdf in memory</description>
+        <param-name>number_of_pdf_pages</param-name>
+        <param-value>50</param-value>
+    </context-param>
+    <context-param>
+        <description>NIC File Save Location</description>
+        <param-name>nic_file_location</param-name>
+        <param-value>nic_storage</param-value>
+    </context-param>
+    <context-param>
+        <description>Signature File Save Location</description>
+        <param-name>signature_file_location</param-name>
+        <param-value>signature_storage</param-value>
+    </context-param>
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            /WEB-INF/application-context.xml
+        </param-value>
+    </context-param>
+    <!-- START TEST -->
+<!--    <context-param>
+        <description>LDAP Authentication Host</description>
+        <param-name>ldap_authentication_host</param-name>
+        <param-value>192.168.200.33</param-value>
+    </context-param>-->
+    <!-- live -->
+    <context-param>
+        <description>LDAP Authentication Host</description>
+        <param-name>ldap_authentication_host</param-name>
+        <param-value>192.168.2.86</param-value>
+    </context-param>
+    <!-- live -->
+    <!-- END TEST -->
+    <context-param>
+        <description>Sheduler Task</description>
+        <param-name>is_sheduler_task_run</param-name>
+        <param-value>false</param-value>
+    </context-param>
+    <!-- START TEST -->
+    <context-param>
+        <description>FTP Server Location</description>
+        <param-name>ftp_server_location</param-name>
+        <param-value>192.168.200.36</param-value>
+    </context-param>
+    <context-param>
+        <description>FTP Server File Location</description>
+        <param-name>ftp_server_file_location</param-name>
+        <param-value>/var/cclk/files/temp/daily/</param-value>
+    </context-param>
+    <context-param>
+        <description>FTP Server Port</description>
+        <param-name>ftp_server_port</param-name>
+        <param-value>22</param-value>
+    </context-param>
+    <context-param>
+        <description>FTP Server Username</description>
+        <param-name>ftp_server_username</param-name>
+        <param-value>root</param-value>
+    </context-param>
+    <context-param>
+        <description>FTP Server Password</description>
+        <param-name>ftp_server_password</param-name>
+        <param-value>0711381308</param-value>
+    </context-param>
+    <!-- END TEST -->
+    <context-param>
+        <description>Software Version</description>
+        <param-name>software_version</param-name>
+        <param-value>QA Vesrion 1.71</param-value>
+    </context-param>
+    <context-param>
+        <description>Case Attach File Location</description>
+        <param-name>case_attach_file_location</param-name>
+        <param-value>CASE_DOC</param-value>
+    </context-param>
+    
+    <servlet>
+        <servlet-name>spring-web</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+        <!-- 
+       <init-param>
+               <param-name>contextConfigLocation</param-name>
+               <param-value>/WEB-INF/spring-mvc-config.xml</param-value>
+       </init-param>
+        -->
+    </servlet>
+    <session-config>
+        <session-timeout>120</session-timeout>
+    </session-config>
+    <servlet-mapping>
+        <servlet-name>spring-web</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+    <!-- Spring Security -->
+<!--    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>-->
+    <error-page>
+        <error-code>404</error-code>
+        <location>/errorpages/error404</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/errorpages/error500</location>
+    </error-page>
+</web-app>

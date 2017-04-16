@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:sec="http://www.springframework.org/schema/security"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                            http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context-3.2.xsd
+                            http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+    
+    <bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping" />
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
+    <!--<bean id="CustomAuthenticationProvider" class="com.avn.ccl.controller.login.CustomAuthenticationProvider" />-->
+    
+    <bean id="notificationDAOImpl" class="com.avn.ccl.daoimpl.notification.NotificationDAOImpl">
+        <property name="dataSource" ref="dataSource" />
+        <property name="mysqlDataSource" ref="mysqlDataSource" />
+        <property name="mailSender" ref="mailSender" />
+    </bean>
+    <bean id="salesPiplineDAOImpl" class="com.avn.ccl.daoimpl.salesPipline.SalesPiplineDAOImpl">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+    <bean id="caseTypeDAOImpl" class="com.avn.ccl.daoimpl.casetype.CaseTypeDAOImpl">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+    <bean id="casePriorityDAOImpl" class="com.avn.ccl.daoimpl.casepriority.CasePriorityDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="departmentDAOImpl" class="com.avn.ccl.daoimpl.department.DepartmentDAOImpl">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+    <bean id="productDAOImpl" class="com.avn.ccl.daoimpl.product.ProductDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="statusDAOImpl" class="com.avn.ccl.daoimpl.status.StatusDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="religonDAOImpl" class="com.avn.ccl.daoimpl.religon.ReligonDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="countryDAOImpl" class="com.avn.ccl.daoimpl.country.CountryDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean  id="provinceDAOImpl" class="com.avn.ccl.daoimpl.province.ProvinceDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean  id="districtDAOImpl" class="com.avn.ccl.daoimpl.district.DistrictDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean  id="cityDAOImpl" class="com.avn.ccl.daoimpl.city.CityDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean  id="addressTypeDAOImpl" class="com.avn.ccl.daoimpl.addresstype.AddressTypeDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="caseDaoImpl" class="com.avn.ccl.daoimpl.casemgt.CaseDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="audittrace" class="com.avn.ccl.daoimpl.audittrace.AuditTraceDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="callcenter" class="com.avn.ccl.daoimpl.callcenter.CallCenterDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="oPDesignationDAOImpl" class="com.avn.ccl.daoimpl.opdesignation.OPDesignationDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="oPLevelDAOImpl" class="com.avn.ccl.daoimpl.oplevel.OPLevelDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="oPProfessionDAOImpl" class="com.avn.ccl.daoimpl.opprofession.OPProfessionDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="oPSectorDAOImpl" class="com.avn.ccl.daoimpl.opsector.OPSectorDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="oPSubsectorDAOImpl" class="com.avn.ccl.daoimpl.opsubsector.OPSubsectorDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="caseReportDAOImpl" class="com.avn.ccl.daoimpl.report.rptcase.CaseReportDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="accountDAOImpl" class="com.avn.ccl.daoimpl.account.AccountDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="addressDAOImpl" class="com.avn.ccl.daoimpl.address.AddressDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="educationDAOImpl" class="com.avn.ccl.daoimpl.education.EducationDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="educationLevelDAOImpl" class="com.avn.ccl.daoimpl.educationlevel.EducationLevelDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="subSectorDAOImpl" class="com.avn.ccl.daoimpl.subsector.SubSectorDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="dependentTypeDAOImpl" class="com.avn.ccl.daoimpl.dependenttype.DependentTypeDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="dependentDAOImpl" class="com.avn.ccl.daoimpl.dependent.DependentDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="secretQuestionDAOImpl" class="com.avn.ccl.daoimpl.secretquestion.SecretQuestionDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="callReportDAOImpl" class="com.avn.ccl.daoimpl.report.rptcall.CallReportDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="followUpActionDaoImpl" class="com.avn.ccl.daoimpl.followupaction.FollowUpActionDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="callDirectionDaoImpl" class="com.avn.ccl.daoimpl.calldirection.CallDirectionDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <!--    <bean id="dashboarddaoimple" class="com.avn.ccl.dao.dashboard.DashBoardDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>-->
+    <bean id="activeuser" class="com.avn.ccl.daoimpl.activeusername.ActiveUserDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="userDAOImpl1" class="com.avn.ccl.daoimpl.user.UserDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="userRoleDAOImpl" class="com.avn.ccl.daoimpl.userrole.UserRoleDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="branch" class="com.avn.ccl.daoimpl.branch.BranchDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="emailDaoImpl" class="com.avn.ccl.daoimpl.notificationtemplate.NotifictionTemplateDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="shedultask" class="com.avn.ccl.daoimpl.schedulertask.SchedulerTaskDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="logindaoimpl" class="com.avn.ccl.daoimpl.login.LogingDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="logoutreasons" class="com.avn.ccl.daoimpl.logoutresons.LogoutReasonsDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="commonDAO" class="com.avn.ccl.dao.common.CommonDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="employeeCategoryDAOImpl" class="com.avn.ccl.daoimpl.employeecategory.EmployeeCategoryDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="employee" class="com.avn.ccl.daoimpl.employee.EmployeeDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="ccpersons" class="com.avn.ccl.daoimpl.organizationalparameters.OrganizationalParametersDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="accountCategoryDAOImpl" class="com.avn.ccl.daoimpl.accountcategory.AccountCategoryDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="accountCategoryTypeDAOImpl" class="com.avn.ccl.daoimpl.accountcategoeytype.AccountCategoryTypeDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="customerCodeTypeDAOImpl" class="com.avn.ccl.daoimpl.customercodetype.CustomerCodeTypeDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="titleDAOImpl" class="com.avn.ccl.daoimpl.title.TitleDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="maritalStatusDAOImpl" class="com.avn.ccl.daoimpl.maritalstatus.MaritalStatusDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="genderDAOImpl" class="com.avn.ccl.daoimpl.gender.GenderDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="languagesDAOImpl" class="com.avn.ccl.daoimpl.language.LanguageDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="sectionsDAOImpl" class="com.avn.ccl.daoimpl.section.SectionDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="subsectionsDAOImpl" class="com.avn.ccl.daoimpl.subsection.SubsectionDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="userRoleSectionDAOImpl" class="com.avn.ccl.daoimpl.userrolesection.UserRoleSectionDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="userRolesubSectionDAOImpl" class="com.avn.ccl.daoimpl.userrolesubsection.UserRoleSubsectionDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="tasksDAOImpl" class="com.avn.ccl.daoimpl.task.TaskDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="sectiontasksDAOImpl" class="com.avn.ccl.daoimpl.sectiontask.SectionTaskDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="userroletaskDAOImpl" class="com.avn.ccl.daoimpl.userroletask.UserRoleTaskDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="hobbiesAndInterestsDAOImpl" class="com.avn.ccl.daoimpl.hobbiesandinterests.HobbiesAndInterestsDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="customerHobbiesInterestDAOImpl" class="com.avn.ccl.daoimpl.customerhobbiesinterest.CustomerHobbiesInterestDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="fdTypeDAOImpl" class="com.avn.ccl.daoimpl.fdtype.FdTypeDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="customervisitdaoimpl" class="com.avn.ccl.daoimpl.customervisit.CustomerVisitDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="interacthistoroydaoimpl" class="com.avn.ccl.daoimpl.interacthistory.InteractHistoryDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="remindernotificationdaoimpl" class="com.avn.ccl.daoimpl.remindernotification.ReminderNotificationDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="ActivityDAOImpl" class="com.avn.ccl.daoimpl.activity.ActivityDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="CalenderDAOImpl" class="com.avn.ccl.daoimpl.calender.CalenderDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="wedgetdaoimpl" class="com.avn.ccl.daoimpl.wedget.WedgetDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="wedgetwidthdaoimpl" class="com.avn.ccl.daoimpl.wedgetwidth.WedgetWidthDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="targetgroupdaoImpl" class="com.avn.ccl.daoimpl.targetgroup.TargetGroupDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="targetperoidaoImpl" class="com.avn.ccl.daoimpl.targetperiod.TargetPeriodDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="targetsettingdaoImpl" class="com.avn.ccl.daoimpl.targetsetting.TargetSettingDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="userrolewedgetdaoimpl" class="com.avn.ccl.daoimpl.userrolewedget.UserRoleWedgetDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="regiondaoimpl" class="com.avn.ccl.daoimpl.region.RegionDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="activitytypedaoImpl" class="com.avn.ccl.daoimpl.activitytype.ActivityTypeDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+     <bean id="targettypedaoImpl" class="com.avn.ccl.daoimpl.targettype.TargetTypeDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="targettypedaoImpl2" class="com.avn.ccl.daoimpl.revenuetargetsetting.RevenueTargetSetiingDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+      <bean id="branchGroupdaoimpl" class="com.avn.ccl.daoimpl.branchgroup.BranchGroupDAOImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+</beans>
