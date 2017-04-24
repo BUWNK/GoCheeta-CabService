@@ -89,7 +89,7 @@ public class AuditTraceDAOImpl implements AuditTraceDAO {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {        
-            String sql = "INSERT INTO AVN_AUDITTRACE (AFFECTEDPAGE,TASK,DESCRIPTION,AFECTEDID,RESPONSIBLEUSER,CREATEDATETIME) VALUES(?, ?, ?, ?, ?, CURRENT_TIMESTAMP)";
+            String sql = "INSERT INTO audittrace (AFFECTEDPAGE,TASK,DESCRIPTION,AFECTEDID,RESPONSIBLEUSER,CREATEDATETIME) VALUES(?, ?, ?, ?, ?, CURRENT_TIMESTAMP)";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             statement.setString(1, page);

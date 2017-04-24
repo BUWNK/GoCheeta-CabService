@@ -38,7 +38,7 @@ public class OPSectorDAOImpl implements OPSectorDAO {
         ResultSet resultSet = null;
         Map<String, String> list = null;
         try {
-            String sql = "SELECT ID, DESCRIPTION FROM AVN_BUSSECTOR ORDER BY DESCRIPTION";
+            String sql = "SELECT ID, DESCRIPTION FROM bussector ORDER BY DESCRIPTION";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             resultSet = statement.executeQuery();

@@ -340,12 +340,12 @@ public class SubsectionDAOImpl implements SubsectionDAO {
         List<Subsection> subsections;
         try {
             String sql = "SELECT "
-                    + "NVL(SUS.DESCRIPTION, '') AS DESCRIPTION, "
-                    + "NVL(SUS.ICON, '') AS ICON, "
-                    + "NVL(SUS.URL, '') AS URL, "
+                    + "IFNULL(SUS.DESCRIPTION, '') AS DESCRIPTION, "
+                    + "IFNULL(SUS.ICON, '') AS ICON, "
+                    + "IFNULL(SUS.URL, '') AS URL, "
                     + "CLICKABLE "
-                    + "FROM AVN_SUBSECTION SUS "
-                    + "INNER JOIN AVN_USERROLESUBSECTION URSUS ON URSUS.SUBSECTIONID = SUS.SUBSECTIONID "
+                    + "FROM subsection SUS "
+                    + "INNER JOIN userrolesubsection URSUS ON URSUS.SUBSECTIONID = SUS.SUBSECTIONID "
                     + "WHERE URSUS.USERROLEID = ? AND URSUS.SECTIONID = ? "
                     + "ORDER BY SUS.SORTID";
             connection = dataSource.getConnection();

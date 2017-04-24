@@ -96,7 +96,7 @@ public class ReminderNotificationDAOImpl implements ReminderNotificationDAO {
         int count = 0;
         try {
             String sql = "SELECT COUNT(*) CNT "
-                    + "FROM AVN_REMINDERNOTIFICATION "
+                    + "FROM remindernotification "
                     + "WHERE (REMINDERSTATUS = ? "
                     + "  AND REMINDERUSER = ? "
                     + "  AND REMINDERTIME BETWEEN ? AND ?) "
@@ -356,7 +356,7 @@ public class ReminderNotificationDAOImpl implements ReminderNotificationDAO {
         int count = 0;
         try {
             String sql = "SELECT COUNT(*) CNT "
-                    + "FROM AVN_REMINDERNOTIFICATION "
+                    + "FROM remindernotification "
                     + "WHERE (REMINDERSTATUS = ? "
                     + "  AND REMINDERUSER = ? "
                     + "  AND REMINDERTIME < ?) "

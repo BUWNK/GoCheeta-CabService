@@ -87,7 +87,7 @@ public class CommonDAOImpl implements CommonDAO {
         ResultSet resultSet = null;
         JSONArray objList = new JSONArray();
         try {
-            String sql = "SELECT USRT.TASKID ,USRSUS.SECTIONID, USRSUS.SUBSECTIONID, USRSUS.USERROLEID FROM AVN_USERROLETASK USRT INNER JOIN AVN_USERROLESUBSECTION USRSUS ON USRSUS.USERROLESUBSECTIONID = USRT.USERROLESUBSECTIONID INNER JOIN AVN_USER_ROLE UR ON USRSUS.USERROLEID=UR.USERROLEID WHERE UR.USERROLEID = ?";
+            String sql = "SELECT USRT.TASKID ,USRSUS.SECTIONID, USRSUS.SUBSECTIONID, USRSUS.USERROLEID FROM userroletask USRT INNER JOIN  userrolesubsection USRSUS ON USRSUS.USERROLESUBSECTIONID = USRT.USERROLESUBSECTIONID INNER JOIN userrole UR ON USRSUS.USERROLEID=UR.USERROLEID WHERE UR.USERROLEID = ?";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             statement.setInt(1, userroleid);
@@ -240,7 +240,7 @@ public class CommonDAOImpl implements CommonDAO {
         ResultSet resultSet = null;
         JSONArray objList = new JSONArray();
         try {
-            String sql = "SELECT URD.WIDGETID,URD.SORTID,URD.USERROLEID,URD.STATUS, WW.CSS FROM AVN_USERROLEDASHBOARDWIDGET URD INNER JOIN AVN_WEDGETWIDTH WW ON URD.WIDGETWIDTHID=WW.WIDGETWIDTHID WHERE USERROLEID=?";
+            String sql = "SELECT URD.WIDGETID,URD.SORTID,URD.USERROLEID,URD.STATUS, WW.CSS FROM userroledashboardwidget URD INNER JOIN wedgetwidth WW ON URD.WIDGETWIDTHID=WW.WIDGETWIDTHID WHERE USERROLEID=?";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             statement.setInt(1, userroleid);

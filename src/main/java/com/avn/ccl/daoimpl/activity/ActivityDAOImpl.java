@@ -52,12 +52,12 @@ public class ActivityDAOImpl implements ActivityDAO {
         ResultSet resultSet = null;
         List<Activity> Activitylist = null;
         try {
-            String sql = "SELECT AVN_ACTIVITY.ACTIVITYDATETIME,AVN_ACTIVITY.DESCRIPTION,"
-                    + "AVN_ACTIVITY.LEADID ,AVN_ACTIVITY.CREATEDUSER,AVN_ACTIVITY.SPENTTIME,"
-                    + "AVN_ACTIVITY.ACTIVITYID ,AVN_ACTIVITYTYPES.ACTIVITYTYPEDESCRIPTION,"
-                    + "AVN_ACTIVITYTYPES.ACTIVITYTYPEID FROM AVN_ACTIVITY INNER JOIN "
-                    + "AVN_ACTIVITYTYPES ON AVN_ACTIVITY.ACTIVITYTYPEID=AVN_ACTIVITYTYPES."
-                    + "ACTIVITYTYPEID WHERE AVN_ACTIVITY.LEADID = ? AND AVN_ACTIVITY.ACTIVITYSTATUS = ? order by AVN_ACTIVITY.ACTIVITYDATETIME desc";
+            String sql = "SELECT activity.ACTIVITYDATETIME,activity.DESCRIPTION,"
+                    + "activity.LEADID ,activity.CREATEDUSER,activity.SPENTTIME,"
+                    + "activity.ACTIVITYID ,activitytypes.ACTIVITYTYPEDESCRIPTION,"
+                    + "activitytypes.ACTIVITYTYPEID FROM activity INNER JOIN "
+                    + "activitytypes ON activity.ACTIVITYTYPEID=activitytypes."
+                    + "ACTIVITYTYPEID WHERE activity.LEADID = ? AND activity.ACTIVITYSTATUS = ? order by activity.ACTIVITYDATETIME desc";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             statement.setInt(1, activity.getLeadid());
@@ -108,10 +108,10 @@ public class ActivityDAOImpl implements ActivityDAO {
         Map<String, String> leadList = null;
         try {
 
-            String sql = "SELECT AVN_LEAD.LEADID,AVN_CONTACTS.NAMEINFULL "
-                    + "FROM AVN_CONTACTS "
-                    + "INNER JOIN AVN_LEAD "
-                    + "ON AVN_LEAD.CONTACTID=AVN_CONTACTS.CONTACTID WHERE AVN_LEAD.CREATEDUSER=? ORDER BY AVN_LEAD.LEADID ASC";
+            String sql = "SELECT lead.LEADID,contacts.NAMEINFULL "
+                    + "FROM contacts "
+                    + "INNER JOIN lead "
+                    + "ON lead.CONTACTID=contacts.CONTACTID WHERE lead.CREATEDUSER=? ORDER BY lead.LEADID ASC";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             statement.setString(1, createUser);
@@ -154,12 +154,12 @@ public class ActivityDAOImpl implements ActivityDAO {
         ResultSet resultSet = null;
         List<Lead> Leadlistdropdown = null;
         try {
-            String sql = "SELECT NVL(substr(AVN_CONTACTS.NAMEINFULL, 1, instr(AVN_CONTACTS.NAMEINFULL,' ')), AVN_CONTACTS.NAMEINFULL) AS NAMEINFULL,AVN_LEAD.LEADID,AVN_LEAD.LEADAMOUNT,AVN_PRODUCT.DESCRIPTION "
-                    + "FROM AVN_CONTACTS "
-                    + "INNER JOIN AVN_LEAD ON AVN_LEAD.CONTACTID=AVN_CONTACTS.CONTACTID "
-                    + "INNER JOIN AVN_PRODUCT ON AVN_PRODUCT.PRODUCTID=AVN_LEAD.PRODUCTID "
-                    + "WHERE AVN_LEAD.CREATEDUSER=? "
-                    + "ORDER BY AVN_CONTACTS.NAMEINFULL ASC";
+            String sql = "SELECT IFNULL(substr(contacts.NAMEINFULL, 1, instr(contacts.NAMEINFULL,' ')), contacts.NAMEINFULL) AS NAMEINFULL,lead.LEADID,lead.LEADAMOUNT,product.DESCRIPTION "
+                    + "FROM contacts "
+                    + "INNER JOIN lead ON lead.CONTACTID=contacts.CONTACTID "
+                    + "INNER JOIN product ON product.PRODUCTID=lead.PRODUCTID "
+                    + "WHERE lead.CREATEDUSER=? "
+                    + "ORDER BY contacts.NAMEINFULL ASC";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             statement.setString(1, createUser);
@@ -209,10 +209,10 @@ public class ActivityDAOImpl implements ActivityDAO {
         ResultSet resultSet = null;
         List<Lead> Contactdropdown = null;
         try {
-            String sql = "SELECT AVN_CONTACTS.NAMEINFULL,AVN_CONTACTS.CONTACTID "
-                    + "FROM AVN_CONTACTS "
-                    + "WHERE AVN_CONTACTS.CREATEDUSER=? "
-                    + "ORDER BY AVN_CONTACTS.NAMEINFULL ASC";
+            String sql = "SELECT contacts.NAMEINFULL,contacts.CONTACTID "
+                    + "FROM contacts "
+                    + "WHERE contacts.CREATEDUSER=? "
+                    + "ORDER BY contacts.NAMEINFULL ASC";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             statement.setString(1, createUser);
@@ -259,7 +259,7 @@ public class ActivityDAOImpl implements ActivityDAO {
         ResultSet resultSet = null;
         int contactid = 0;
         try {
-            String sql = "SELECT CONTACTID FROM AVN_LEAD WHERE LEADID=?";
+            String sql = "SELECT CONTACTID FROM lead WHERE LEADID=?";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             statement.setInt(1, leadid);
@@ -300,10 +300,10 @@ public class ActivityDAOImpl implements ActivityDAO {
         ResultSet resultSet = null;
         List<Lead> leaddropList = null;
         try {
-            String sql = "SELECT AVN_LEAD.LEADAMOUNT,AVN_LEAD.LEADID,AVN_PRODUCT.DESCRIPTION "
-                    + "FROM AVN_LEAD "
-                    + "INNER JOIN AVN_PRODUCT ON AVN_PRODUCT.PRODUCTID=AVN_LEAD.PRODUCTID "
-                    + "WHERE AVN_LEAD.CONTACTID=?";
+            String sql = "SELECT lead.LEADAMOUNT,lead.LEADID,product.DESCRIPTION "
+                    + "FROM lead "
+                    + "INNER JOIN product ON product.PRODUCTID=lead.PRODUCTID "
+                    + "WHERE lead.CONTACTID=?";
 //                    + "ORDER BY AVN_CONTACTS.NAMEINFULL ASC";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
@@ -352,12 +352,12 @@ public class ActivityDAOImpl implements ActivityDAO {
         ResultSet resultSet = null;
         List<Lead> Leadlistdropdown = null;
         try {
-            String sql = "SELECT NVL(substr(AVN_CONTACTS.NAMEINFULL, 1, instr(AVN_CONTACTS.NAMEINFULL,' ')), AVN_CONTACTS.NAMEINFULL) AS NAMEINFULL,AVN_LEAD.LEADID,AVN_LEAD.LEADAMOUNT,AVN_PRODUCT.DESCRIPTION "
-                    + "FROM AVN_CONTACTS "
-                    + "INNER JOIN AVN_LEAD ON AVN_LEAD.CONTACTID=AVN_CONTACTS.CONTACTID "
-                    + "INNER JOIN AVN_PRODUCT ON AVN_PRODUCT.PRODUCTID=AVN_LEAD.PRODUCTID "
-                    + "WHERE AVN_LEAD.CREATEDUSER=? "
-                    + "ORDER BY AVN_CONTACTS.NAMEINFULL ASC";
+            String sql = "SELECT IFNULL(substr(contacts.NAMEINFULL, 1, instr(contacts.NAMEINFULL,' ')), contacts.NAMEINFULL) AS NAMEINFULL,lead.LEADID,lead.LEADAMOUNT,product.DESCRIPTION "
+                    + "FROM contacts "
+                    + "INNER JOIN lead ON lead.CONTACTID=contacts.CONTACTID "
+                    + "INNER JOIN product ON product.PRODUCTID=lead.PRODUCTID "
+                    + "WHERE lead.CREATEDUSER=? "
+                    + "ORDER BY contacts.NAMEINFULL ASC";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             statement.setString(1, createUser);
@@ -405,7 +405,7 @@ public class ActivityDAOImpl implements ActivityDAO {
         ResultSet resultSet = null;
         String createUser = "";
         try {
-            String sql = "SELECT CREATEDUSER FROM AVN_LEAD WHERE LEADID=?";
+            String sql = "SELECT CREATEDUSER FROM lead WHERE LEADID=?";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             statement.setInt(1, leadid);
@@ -446,7 +446,7 @@ public class ActivityDAOImpl implements ActivityDAO {
         ResultSet resultSet = null;
         List<Activity> Activitytype = null;
         try {
-            String sql = "SELECT ACTIVITYTYPEDESCRIPTION,ACTIVITYTYPEID FROM AVN_ACTIVITYTYPES";
+            String sql = "SELECT ACTIVITYTYPEDESCRIPTION,ACTIVITYTYPEID FROM activitytypes";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             resultSet = statement.executeQuery();
@@ -490,7 +490,7 @@ public class ActivityDAOImpl implements ActivityDAO {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            String sql = "INSERT INTO AVN_ACTIVITY (DESCRIPTION,LEADID,ACTIVITYTYPEID,ACTIVITYDATETIME,CREATEDUSER,CREATEDDATETIME,ACTIVITYSTATUS) VALUES (?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO activity (DESCRIPTION,LEADID,ACTIVITYTYPEID,ACTIVITYDATETIME,CREATEDUSER,CREATEDDATETIME,ACTIVITYSTATUS) VALUES (?,?,?,?,?,?,?)";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             statement.setString(1, activity.getActivitytypedescription());
@@ -528,7 +528,7 @@ public class ActivityDAOImpl implements ActivityDAO {
         ResultSet resultSet = null;
         List<Activity> Activitylist = null;
         try {
-            String sql = "SELECT AVN_ACTIVITY.ACTIVITYDATETIME,AVN_ACTIVITY.ACTIVITYTYPEID,AVN_ACTIVITY.DESCRIPTION,AVN_ACTIVITY.LEADID ,AVN_ACTIVITY.CREATEDUSER,AVN_ACTIVITY.SPENTTIME,AVN_ACTIVITY.ACTIVITYID ,AVN_ACTIVITYTYPES.ACTIVITYTYPEDESCRIPTION FROM AVN_ACTIVITY INNER JOIN AVN_ACTIVITYTYPES ON AVN_ACTIVITY.ACTIVITYTYPEID=AVN_ACTIVITYTYPES.ACTIVITYTYPEID WHERE AVN_ACTIVITY.CREATEDUSER = ? AND AVN_ACTIVITY.ACTIVITYSTATUS = ? order by AVN_ACTIVITY.ACTIVITYDATETIME desc";
+            String sql = "SELECT activity.ACTIVITYDATETIME,activity.ACTIVITYTYPEID,activity.DESCRIPTION,activity.LEADID ,activity.CREATEDUSER,activity.SPENTTIME,activity.ACTIVITYID ,activitytypes.ACTIVITYTYPEDESCRIPTION FROM activity INNER JOIN activitytypes ON activity.ACTIVITYTYPEID=activitytypes.ACTIVITYTYPEID WHERE activity.CREATEDUSER = ? AND activity.ACTIVITYSTATUS = ? order by activity.ACTIVITYDATETIME desc";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             statement.setString(1, ajent);
@@ -581,7 +581,7 @@ public class ActivityDAOImpl implements ActivityDAO {
         ResultSet resultSet = null;
         List<Activity> Activitylist = null;
         try {
-            String sql = "SELECT AVN_ACTIVITY.ACTIVITYDATETIME,AVN_ACTIVITY.ACTIVITYTYPEID,AVN_ACTIVITY.DESCRIPTION,AVN_ACTIVITY.LEADID ,AVN_ACTIVITY.CREATEDUSER,AVN_ACTIVITY.SPENTTIME,AVN_ACTIVITY.ACTIVITYID ,AVN_ACTIVITYTYPES.ACTIVITYTYPEDESCRIPTION FROM AVN_ACTIVITY INNER JOIN AVN_ACTIVITYTYPES ON AVN_ACTIVITY.ACTIVITYTYPEID=AVN_ACTIVITYTYPES.ACTIVITYTYPEID INNER JOIN AVN_LEAD ON AVN_ACTIVITY.LEADID=AVN_LEAD.LEADID WHERE AVN_LEAD.CONTACTID = ? AND AVN_ACTIVITY.ACTIVITYSTATUS = ? order by AVN_ACTIVITY.ACTIVITYDATETIME desc";
+            String sql = "SELECT activity.ACTIVITYDATETIME,activity.ACTIVITYTYPEID,activity.DESCRIPTION,activity.LEADID ,activity.CREATEDUSER,activity.SPENTTIME,activity.ACTIVITYID ,activitytypes.ACTIVITYTYPEDESCRIPTION FROM activity INNER JOIN activitytypes ON activity.ACTIVITYTYPEID=activitytypes.ACTIVITYTYPEID INNER JOIN lead ON activity.LEADID=lead.LEADID WHERE lead.CONTACTID = ? AND activity.ACTIVITYSTATUS = ? order by activity.ACTIVITYDATETIME desc";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             statement.setInt(1, contactId);
@@ -634,8 +634,8 @@ public class ActivityDAOImpl implements ActivityDAO {
         List<Activity> Activitylist = null;
         try {
             String sql = "SELECT ACTIVITYDATETIME,DESCRIPTION ,ACTIVITYTYPEID, "
-                    + "SPENTTIME,ACTIVITYID  FROM AVN_ACTIVITY "
-                    + "WHERE AVN_ACTIVITY.ACTIVITYID=?";
+                    + "SPENTTIME,ACTIVITYID  FROM activity "
+                    + "WHERE activity.ACTIVITYID=?";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             statement.setInt(1, activityId);
@@ -688,9 +688,9 @@ public class ActivityDAOImpl implements ActivityDAO {
         long count = 0;
         try {
             String query = "SELECT COUNT(*) AS CNT "
-                    + "FROM AVN_ACTIVITY "
+                    + "FROM activity "
                     + "WHERE ACTIVITYTYPEID = ? "
-                    + "AND LEADID IN (SELECT LEADID FROM AVN_LEAD WHERE PRODUCTID = ?) "
+                    + "AND LEADID IN (SELECT LEADID FROM lead WHERE PRODUCTID = ?) "
                     + "AND ACTIVITYSTATUS = ? "
                     + "AND ACTIVITYDATETIME BETWEEN ? AND ?";
             connection = dataSource.getConnection();
@@ -737,9 +737,9 @@ public class ActivityDAOImpl implements ActivityDAO {
         long count = 0;
         try {
             String query = "SELECT COUNT(*) AS CNT "
-                    + "FROM AVN_ACTIVITY "
+                    + "FROM activity "
                     + "WHERE ACTIVITYTYPEID = ? "
-                    + "AND LEADID IN (SELECT LEADID FROM AVN_LEAD WHERE PRODUCTID = ?) "
+                    + "AND LEADID IN (SELECT LEADID FROM lead WHERE PRODUCTID = ?) "
                     + "AND ACTIVITYSTATUS = ? "
                     + "AND ACTIVITYDATETIME BETWEEN ? AND ?";
             connection = dataSource.getConnection();
@@ -784,7 +784,7 @@ public class ActivityDAOImpl implements ActivityDAO {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            String sql = "UPDATE AVN_ACTIVITY  SET DESCRIPTION= ? ,ACTIVITYTYPEID = ?, SPENTTIME = ?,"
+            String sql = "UPDATE activity  SET DESCRIPTION= ? ,ACTIVITYTYPEID = ?, SPENTTIME = ?,"
                     + "ACTIVITYDATETIME = ?,CREATEDUSER = ?,CREATEDDATETIME = ?,ACTIVITYSTATUS = ?  WHERE   ACTIVITYID = ?";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
@@ -829,7 +829,7 @@ public class ActivityDAOImpl implements ActivityDAO {
         ResultSet resultSet = null;
         List<Contact> Contactlist = null;
         try {
-            String sql = "SELECT AVN_CONTACTS.NAMEINFULL,AVN_CONTACTS.JOBTITLE,AVN_TITLE.DESCRIPTION FROM AVN_CONTACTS INNER JOIN AVN_LEAD ON AVN_CONTACTS.CONTACTID=AVN_LEAD.CONTACTID INNER JOIN AVN_TITLE ON AVN_TITLE.TITLECODE=AVN_CONTACTS.TITLE WHERE AVN_LEAD.LEADID = ?";
+            String sql = "SELECT contacts.NAMEINFULL,contacts.JOBTITLE,title.DESCRIPTION FROM contacts INNER JOIN lead ON contacts.CONTACTID=lead.CONTACTID INNER JOIN title ON title.TITLECODE=contacts.TITLE WHERE lead.LEADID = ?";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             statement.setInt(1, leadid);
@@ -882,7 +882,7 @@ public class ActivityDAOImpl implements ActivityDAO {
                     + "SPENTTIME, "
                     + "ACTIVITYDATETIME, "
                     + "ACTIVITYSTATUS "
-                    + "FROM AVN_ACTIVITY "
+                    + "FROM activity "
                     + "WHERE ACTIVITYID = ?";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);

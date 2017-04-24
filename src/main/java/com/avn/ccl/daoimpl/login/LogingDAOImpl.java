@@ -36,7 +36,6 @@ public class LogingDAOImpl implements LoginDAO {
         this.dataSource = dataSource;
     }
 
-    @Override
     public int checkUserAlreadyExists(String username) throws Exception {
         Connection connection = null;
         PreparedStatement statement = null;
@@ -171,7 +170,7 @@ public class LogingDAOImpl implements LoginDAO {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            String sql = "Update AVN_SYSTEMUSER SET LASTLOGIN =? where USERID=?";
+            String sql = "Update systemuser SET LASTLOGIN =? where USERID=?";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             statement.setString(1, logintime);

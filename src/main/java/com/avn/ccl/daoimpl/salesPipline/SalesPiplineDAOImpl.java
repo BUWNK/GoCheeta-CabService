@@ -47,11 +47,11 @@ public class SalesPiplineDAOImpl implements SalesPiplineDAO {
         ResultSet resultSet = null;
         List<Contact> Contactlist = null;
         try {
-            String sql = "SELECT AVN_CONTACTS.CONTACTID,AVN_TITLE.DESCRIPTION,"
-                    + "AVN_CONTACTS.NAMEINFULL,AVN_CONTACTS.JOBTITLE,AVN_CONTACTS."
-                    + "MOBILE FROM AVN_CONTACTS INNER JOIN AVN_TITLE ON AVN_CONTACTS."
-                    + "TITLE=AVN_TITLE.TITLECODE "
-                    + ":where ORDER BY AVN_CONTACTS.CREATEDDATETIME DESC";
+            String sql = "SELECT contacts.CONTACTID,title.DESCRIPTION,"
+                    + "contacts.NAMEINFULL,contacts.JOBTITLE,contacts."
+                    + "MOBILE FROM contacts INNER JOIN title ON contacts."
+                    + "TITLE=title.TITLECODE "
+                    + ":where ORDER BY contacts.CREATEDDATETIME DESC";
             sql = sql.replace(":where", where);
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
@@ -115,7 +115,7 @@ public class SalesPiplineDAOImpl implements SalesPiplineDAO {
         long leadid = 0;
         try {
             String sql = "INSERT "
-                    + "INTO AVN_LEAD "
+                    + "INTO lead "
                     + "  ( "
                     + "    PRODUCTID, "
                     + "    CONTACTID, "
@@ -197,19 +197,19 @@ public class SalesPiplineDAOImpl implements SalesPiplineDAO {
         ResultSet resultSet = null;
         List<Contact> Contactlist = null;
         try {
-            String sql = "SELECT AVN_TITLE.DESCRIPTION, "
-                    + "          AVN_CONTACTS.NAMEINFULL, "
-                    + "          AVN_CONTACTS.JOBTITLE, "
-                    + "          AVN_CONTACTS.CONTACTID, "
-                    + "          AVN_CONTACTS.MOBILE, "
-                    + "          AVN_LEAD.LEADAMOUNT, "
-                    + "          AVN_LEAD.CONFIRMEDAMOUNT, "
-                    + "          AVN_LEAD.LEADID, "
-                    + "          AVN_LEAD.SALECLOSEDDATE, "
-                    + "          AVN_LEAD.SALELOSTDATE, "
-                    + "          AVN_CONTACTS.CUSTOMERACCOUNTID, "
-                    + "          AVN_CONTACTS.STATUS "
-                    + "FROM AVN_CONTACTS INNER JOIN AVN_LEAD ON AVN_CONTACTS.CONTACTID=AVN_LEAD.CONTACTID INNER JOIN AVN_TITLE ON AVN_CONTACTS.TITLE=AVN_TITLE.TITLECODE :where "
+            String sql = "SELECT title.DESCRIPTION, "
+                    + "          contacts.NAMEINFULL, "
+                    + "          contacts.JOBTITLE, "
+                    + "          contacts.CONTACTID, "
+                    + "          contacts.MOBILE, "
+                    + "          lead.LEADAMOUNT, "
+                    + "          lead.CONFIRMEDAMOUNT, "
+                    + "          lead.LEADID, "
+                    + "          lead.SALECLOSEDDATE, "
+                    + "          lead.SALELOSTDATE, "
+                    + "          contacts.CUSTOMERACCOUNTID, "
+                    + "          contacts.STATUS "
+                    + "FROM contacts INNER JOIN lead ON contacts.CONTACTID=lead.CONTACTID INNER JOIN title ON contacts.TITLE=title.TITLECODE :where "
                     + "ORDER BY LASTUPDATEDATETIME DESC ";
             sql = sql.replace(":where", where);
             connection = dataSource.getConnection();
@@ -289,7 +289,7 @@ public class SalesPiplineDAOImpl implements SalesPiplineDAO {
         ResultSet resultSet = null;
         int maxLeadId = 0;
         try {
-            String sql = "SELECT COUNT(CONTACTID) AS COUNTCONTACTTABLE FROM AVN_CONTACTS :where";
+            String sql = "SELECT COUNT(CONTACTID) AS COUNTCONTACTTABLE FROM  contacts :where";
             sql = sql.replace(":where", where);
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
@@ -329,7 +329,7 @@ public class SalesPiplineDAOImpl implements SalesPiplineDAO {
         ResultSet resultSet = null;
         int count = 0;
         try {
-            String sql = "SELECT COUNT(LEADID) AS COUNTLEADTABLE FROM AVN_CONTACTS INNER JOIN AVN_LEAD ON AVN_CONTACTS.CONTACTID=AVN_LEAD.CONTACTID :where";
+            String sql = "SELECT COUNT(LEADID) AS COUNTLEADTABLE FROM contacts INNER JOIN lead ON contacts.CONTACTID=lead.CONTACTID :where";
             sql = sql.replace(":where", where);
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
@@ -369,8 +369,8 @@ public class SalesPiplineDAOImpl implements SalesPiplineDAO {
         ResultSet resultSet = null;
         String accountId = "";
         try {
-            String sql = "SELECT AVN_CONTACTS.CUSTOMERACCOUNTID FROM AVN_CONTACTS INNER JOIN AVN_LEAD ON  "
-                    + "AVN_CONTACTS.CONTACTID=AVN_LEAD.CONTACTID WHERE AVN_LEAD.LEADID=?";
+            String sql = "SELECT contacts.CUSTOMERACCOUNTID FROM contacts INNER JOIN lead ON  "
+                    + "contacts.CONTACTID=lead.CONTACTID WHERE lead.LEADID=?";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             statement.setInt(1, leadId);
@@ -412,8 +412,8 @@ public class SalesPiplineDAOImpl implements SalesPiplineDAO {
         String name = "";
         String title = "";
         try {
-            String sql = "SELECT AVN_CONTACTS.NAMEINFULL,AVN_CONTACTS.TITLE FROM AVN_CONTACTS INNER JOIN AVN_LEAD ON  "
-                    + "AVN_CONTACTS.CONTACTID=AVN_LEAD.CONTACTID WHERE AVN_LEAD.LEADID=?";
+            String sql = "SELECT contacts.NAMEINFULL,contacts.TITLE FROM contacts INNER JOIN lead ON  "
+                    + "contacts.CONTACTID=lead.CONTACTID WHERE lead.LEADID=?";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             statement.setInt(1, leadId);
@@ -508,7 +508,7 @@ public class SalesPiplineDAOImpl implements SalesPiplineDAO {
         try {
             String sql_insert = "INSERT "
                     + "INTO "
-                    + "    AVN_ACCOUNT "
+                    + "    account "
                     + "    ( "
                     + "        ACCOUNTTCATEGORY,"
                     + "        TITLE, "
@@ -577,7 +577,7 @@ public class SalesPiplineDAOImpl implements SalesPiplineDAO {
         try {
             String sql_insert = "INSERT "
                     + "INTO "
-                    + "    AVN_ACCOUNT "
+                    + "    account "
                     + "    ( "
                     + "        ACCOUNTTCATEGORY,"
                     + "        BUSEMPLOYEE, "
@@ -632,7 +632,7 @@ public class SalesPiplineDAOImpl implements SalesPiplineDAO {
         PreparedStatement statement = null;
 
         try {
-            String sql = "UPDATE AVN_LEAD SET CONFIRMEDAMOUNT = ?, ACTUALACCOUNTCOUNT = ? WHERE LEADID = ?";
+            String sql = "UPDATE lead SET CONFIRMEDAMOUNT = ?, ACTUALACCOUNTCOUNT = ? WHERE LEADID = ?";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             statement.setBigDecimal(1, actual_amount);
@@ -661,7 +661,7 @@ public class SalesPiplineDAOImpl implements SalesPiplineDAO {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            String sql = "UPDATE AVN_LEAD  SET STATUS= ? , LASTUPDATEDATETIME = CURRENT_TIMESTAMP, SALECLOSEDDATE = CURRENT_TIMESTAMP, REMARK = ?  WHERE   LEADID = ?";
+            String sql = "UPDATE lead  SET STATUS= ? , LASTUPDATEDATETIME = CURRENT_TIMESTAMP, SALECLOSEDDATE = CURRENT_TIMESTAMP, REMARK = ?  WHERE   LEADID = ?";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             statement.setString(1, status);
@@ -692,7 +692,7 @@ public class SalesPiplineDAOImpl implements SalesPiplineDAO {
         ResultSet resultSet = null;
         int contactId = 0;
         try {
-            String sql = "SELECT CONTACTID FROM AVN_LEAD WHERE LEADID=?";
+            String sql = "SELECT CONTACTID FROM lead WHERE LEADID=?";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             statement.setInt(1, lead_id);
@@ -732,7 +732,7 @@ public class SalesPiplineDAOImpl implements SalesPiplineDAO {
         ResultSet resultSet = null;
         try {
             String sql = "UPDATE "
-                    + "    AVN_CONTACTS "
+                    + "    contacts "
                     + "    SET  "
                     + "    CUSTOMERACCOUNTID                   = ?, "
                     + "    STATUS                   = ?"
@@ -774,7 +774,7 @@ public class SalesPiplineDAOImpl implements SalesPiplineDAO {
         ResultSet resultSet = null;
         BigDecimal sum = null;
         try {
-            String sql = "SELECT SUM(LEADAMOUNT) AS SUMLEADTABLE FROM AVN_LEAD,AVN_CONTACTS :where AND AVN_CONTACTS.CONTACTID = AVN_LEAD.CONTACTID ";
+            String sql = "SELECT SUM(LEADAMOUNT) AS SUMLEADTABLE FROM lead,contacts :where AND contacts.CONTACTID = lead.CONTACTID ";
             sql = sql.replace(":where", where);
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
@@ -818,7 +818,7 @@ public class SalesPiplineDAOImpl implements SalesPiplineDAO {
         ResultSet resultSet = null;
         Map<String, String> Opportunitylist = null;
         try {
-            String sql = "SELECT OPPORTUNITYLOSTID, DESCRIPTION FROM AVN_OPPORTUNITYLOSTREASONS ORDER BY OPPORTUNITYLOSTID ASC";
+            String sql = "SELECT OPPORTUNITYLOSTID, DESCRIPTION FROM opportunitylostreasons ORDER BY OPPORTUNITYLOSTID ASC";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             resultSet = statement.executeQuery();
@@ -857,7 +857,7 @@ public class SalesPiplineDAOImpl implements SalesPiplineDAO {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            String sql = "UPDATE AVN_LEAD SET SALELOSTREASONCODE = ?, REMARK = ?, STATUS = ?, LASTUPDATEDATETIME = CURRENT_TIMESTAMP, SALELOSTDATE = CURRENT_TIMESTAMP WHERE LEADID = ?";
+            String sql = "UPDATE lead SET SALELOSTREASONCODE = ?, REMARK = ?, STATUS = ?, LASTUPDATEDATETIME = CURRENT_TIMESTAMP, SALELOSTDATE = CURRENT_TIMESTAMP WHERE LEADID = ?";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             statement.setInt(1, opportunityid);
@@ -895,7 +895,7 @@ public class SalesPiplineDAOImpl implements SalesPiplineDAO {
         ResultSet resultSet = null;
         long contactid = 0;
         try {
-            String sql = "INSERT INTO AVN_CONTACTS (TITLE,NAMEINFULL,JOBTITLE,EMPLOYER,EMAIL,MOBILE,CREATEDDATETIME,CREATEDUSER,ISDEALER)VALUES (?,?,?,?,?,?,CURRENT_TIMESTAMP,?,?)";
+            String sql = "INSERT INTO contacts (TITLE,NAMEINFULL,JOBTITLE,EMPLOYER,EMAIL,MOBILE,CREATEDDATETIME,CREATEDUSER,ISDEALER)VALUES (?,?,?,?,?,?,CURRENT_TIMESTAMP,?,?)";
             String[] generatedColumns = {"CONTACTID"};
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql, generatedColumns);
@@ -984,16 +984,15 @@ public class SalesPiplineDAOImpl implements SalesPiplineDAO {
         ResultSet resultSet = null;
         String userNameInFull = "";
         try {
-            String sql = "SELECT  AVN_EMPLOYEE.FIRSTNAME,AVN_EMPLOYEE.LASTNAME FROM AVN_SYSTEMUSER INNER JOIN AVN_EMPLOYEE "
-                    + "ON  AVN_EMPLOYEE.EMPLOYEEID=AVN_SYSTEMUSER.EMPLOYEEID WHERE USERID= ?";
+            String sql = "SELECT  employee.NAMEINFULL FROM systemuser INNER JOIN employee "
+                    + "ON  employee.EMPLOYEEID=systemuser.EMPLOYEEID WHERE USERID= ?";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             statement.setString(1, username);
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                String firstName = resultSet.getString("FIRSTNAME");
-                String lastName = resultSet.getString("LASTNAME");
-                userNameInFull = firstName + " " + lastName + " (ME)";
+                String firstName = resultSet.getString("NAMEINFULL");
+                userNameInFull = firstName + " (ME)";
             }
         } catch (Exception exception) {
             throw exception;
@@ -1071,26 +1070,14 @@ public class SalesPiplineDAOImpl implements SalesPiplineDAO {
         ResultSet resultSet = null;
         Map<String, String> userDetailList = null;
         try {
-            String sql = "SELECT DISTINCT (SU.USERID), "
-                    + "  OH.NAME, "
-                    + "  EMP.FIRSTNAME, "
-                    + "  EMP.LASTNAME "
-                    + "FROM AVN_EMPLOYEESUPERVISOR ES "
-                    + "INNER JOIN AVN_EMPLOYEE EMP "
-                    + "ON ES.EMPLOYEEID = EMP.EMPLOYEEID "
-                    + "INNER JOIN AVN_ORGHIERACHY OH "
-                    + "ON EMP.HIERARCHYID = OH.HIERACHYID "
-                    + "INNER JOIN AVN_SYSTEMUSER SU "
-                    + "ON EMP.EMPLOYEEID     = SU.EMPLOYEEID "
-                    + "WHERE ES.SUPERVISORID = "
-                    + "  (SELECT EMPLOYEEID FROM AVN_SYSTEMUSER WHERE USERID = ?)";
+            String sql = "SELECT DISTINCT (SU.USERID), OH.DESCRIPTION, EMP.NAMEINFULL FROM employeesupervisor ES INNER JOIN employee EMP ON ES.EMPLOYEEID = EMP.EMPLOYEEID INNER JOIN organizationhierarchy OH ON EMP.HIERARCHYID = OH.HIERACHYID INNER JOIN systemuser SU ON EMP.EMPLOYEEID = SU.EMPLOYEEID WHERE ES.SUPERVISOR = (SELECT EMPLOYEEID FROM systemuser WHERE USERID = ?)";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             statement.setString(1, username);
             resultSet = statement.executeQuery();
             userDetailList = new LinkedHashMap<>();
             while (resultSet.next()) {
-                userDetailList.put(resultSet.getString("USERID"), resultSet.getString("FIRSTNAME") + " " + resultSet.getString("LASTNAME") + "|" + resultSet.getString("NAME"));
+                userDetailList.put(resultSet.getString("USERID"), resultSet.getString("NAMEINFULL") + "|" + resultSet.getString("DESCRIPTION"));
             }
         } catch (Exception exception) {
             throw exception;
@@ -1124,16 +1111,15 @@ public class SalesPiplineDAOImpl implements SalesPiplineDAO {
         Map<String, String> userDetailList = null;
         try {
             String sql = "SELECT DISTINCT (SU.USERID),  "
-                    + "  OH.NAME,  "
-                    + "  EMP.FIRSTNAME,  "
-                    + "  EMP.LASTNAME  "
-                    + "FROM AVN_EMPLOYEE EMP  "
-                    + "INNER JOIN AVN_ORGHIERACHY OH  "
+                    + "  OH.DESCRIPTION,  "
+                    + "  EMP.NAMEINFULL  "
+                    + "FROM employee EMP  "
+                    + "INNER JOIN organizationhierarchy OH  "
                     + "ON EMP.HIERARCHYID = OH.HIERACHYID  "
-                    + "INNER JOIN AVN_SYSTEMUSER SU  "
+                    + "INNER JOIN systemuser SU  "
                     + "ON EMP.EMPLOYEEID     = SU.EMPLOYEEID  "
                     + "WHERE EMP.HIERARCHYID >  "
-                    + "  (SELECT SPA.MAXACCESSLEVEL FROM AVN_SALESPIPELINEACCESS SPA WHERE SPA.EMPLOYEEID = ?)"
+                    + "  (SELECT SPA.MAXACCESSLEVEL FROM salespipelineaccess SPA WHERE SPA.EMPLOYEEID = ?)"
                     + "  AND EMP.EMPLOYEEID <> ? ";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
@@ -1142,7 +1128,7 @@ public class SalesPiplineDAOImpl implements SalesPiplineDAO {
             resultSet = statement.executeQuery();
             userDetailList = new LinkedHashMap<>();
             while (resultSet.next()) {
-                userDetailList.put(resultSet.getString("USERID"), resultSet.getString("FIRSTNAME") + " " + resultSet.getString("LASTNAME") + "|" + resultSet.getString("NAME"));
+                userDetailList.put(resultSet.getString("USERID"), resultSet.getString("") + "|" + resultSet.getString("DESCRIPTION"));
             }
         } catch (Exception exception) {
             throw exception;
@@ -1244,7 +1230,7 @@ public class SalesPiplineDAOImpl implements SalesPiplineDAO {
         Map<String, String> contactList = null;
         try {
 
-            String sql = "SELECT  CONTACTID,NAMEINFULL FROM AVN_CONTACTS WHERE CREATEDUSER=? ORDER BY AVN_CONTACTS.CREATEDDATETIME DESC";
+            String sql = "SELECT  CONTACTID,NAMEINFULL FROM contacts WHERE CREATEDUSER=? ORDER BY contacts.CREATEDDATETIME DESC";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             statement.setString(1, username);
@@ -1285,7 +1271,7 @@ public class SalesPiplineDAOImpl implements SalesPiplineDAO {
         List<Contact> contactList = new ArrayList<>();;
         Contact contact = null;
         try {
-            String sql = "SELECT  CONTACTID,NAMEINFULL,JOBTITLE,EMPLOYER,EMAIL,MOBILE,ISDEALER FROM AVN_CONTACTS WHERE CONTACTID = ?";
+            String sql = "SELECT  CONTACTID,NAMEINFULL,JOBTITLE,EMPLOYER,EMAIL,MOBILE,ISDEALER FROM contacts WHERE CONTACTID = ?";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             statement.setInt(1, contactId);
@@ -1335,19 +1321,19 @@ public class SalesPiplineDAOImpl implements SalesPiplineDAO {
         Lead lead = null;
         try {
 
-            String sql = "SELECT AVN_LEAD.LEADAMOUNT, "
-                    + "  AVN_PRODUCT.PRODUCTID, "
-                    + "  AVN_LEAD.FORCASTUNTILDATE, "
-                    + "  AVN_LEAD. SALELOSTREASONCODE, "
-                    + "  AVN_LEAD.SALELOSTDATE, "
-                    + "  AVN_LEAD.SALECLOSEDDATE, "
-                    + "  AVN_LEAD.CONFIRMEDAMOUNT, "
-                    + "  AVN_LEAD.ACCOUNTCOUNT,"
-                    + "  AVN_LEAD.ACTUALACCOUNTCOUNT "
-                    + "FROM AVN_LEAD "
-                    + "INNER JOIN AVN_PRODUCT "
-                    + "ON AVN_LEAD.PRODUCTID = AVN_PRODUCT.PRODUCTID "
-                    + "WHERE AVN_LEAD.LEADID = ?";
+            String sql = "SELECT lead.LEADAMOUNT, "
+                    + "  product.PRODUCTID, "
+                    + "  lead.FORCASTUNTILDATE, "
+                    + "  lead. SALELOSTREASONCODE, "
+                    + "  lead.SALELOSTDATE, "
+                    + "  lead.SALECLOSEDDATE, "
+                    + "  lead.CONFIRMEDAMOUNT, "
+                    + "  lead.ACCOUNTCOUNT,"
+                    + "  lead.ACTUALACCOUNTCOUNT "
+                    + "FROM lead "
+                    + "INNER JOIN product "
+                    + "ON lead.PRODUCTID = product.PRODUCTID "
+                    + "WHERE lead.LEADID = ?";
 
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
@@ -1401,7 +1387,7 @@ public class SalesPiplineDAOImpl implements SalesPiplineDAO {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            String sql = "UPDATE AVN_CONTACTS "
+            String sql = "UPDATE contacts "
                     + "SET NAMEINFULL=?,JOBTITLE=?,EMPLOYER=?,EMAIL=?,MOBILE=? "
                     + "WHERE CONTACTID=?";
             connection = dataSource.getConnection();
@@ -1435,7 +1421,7 @@ public class SalesPiplineDAOImpl implements SalesPiplineDAO {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            String sql = "UPDATE AVN_LEAD "
+            String sql = "UPDATE lead "
                     + "SET PRODUCTID = ?, "
                     + "LEADAMOUNT = ?, "
                     + "FORCASTUNTILDATE = ?, "
@@ -1475,7 +1461,7 @@ public class SalesPiplineDAOImpl implements SalesPiplineDAO {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            String sql = "UPDATE AVN_LEAD "
+            String sql = "UPDATE lead "
                     + "SET PRODUCTID=?,LEADAMOUNT=?,SALECLOSEDDATE=? ,CONFIRMEDAMOUNT=?  "
                     + "WHERE LEADID=?";
             connection = dataSource.getConnection();
@@ -1516,7 +1502,7 @@ public class SalesPiplineDAOImpl implements SalesPiplineDAO {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            String sql = "UPDATE AVN_LEAD "
+            String sql = "UPDATE lead "
                     + "SET PRODUCTID=?,LEADAMOUNT=?,SALELOSTDATE=? , SALELOSTREASONCODE=? "
                     + "WHERE LEADID=?";
             connection = dataSource.getConnection();
@@ -1556,7 +1542,7 @@ public class SalesPiplineDAOImpl implements SalesPiplineDAO {
         Map<String, String> channelList = null;
         try {
 
-            String sql = "SELECT CHANNELID,DESCRIPTION FROM AVN_CHANNEL";
+            String sql = "SELECT CHANNELID,DESCRIPTION FROM channel";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             resultSet = statement.executeQuery();
@@ -1596,7 +1582,7 @@ public class SalesPiplineDAOImpl implements SalesPiplineDAO {
         Map<String, String> channelList = null;
         try {
 
-            String sql = "SELECT CAMPAIGNID,DESCRIPTION FROM AVN_CAMPAIGN WHERE CHANNELID=1";
+            String sql = "SELECT CAMPAIGNID,DESCRIPTION FROM campaign WHERE CHANNELID=1";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             resultSet = statement.executeQuery();
@@ -1635,7 +1621,7 @@ public class SalesPiplineDAOImpl implements SalesPiplineDAO {
         ResultSet resultSet = null;
         boolean state = false;
         try {
-            String sql = "SELECT AVN_CONTACTS.MOBILE,AVN_CONTACTS.EMAIL FROM AVN_CONTACTS WHERE AVN_CONTACTS.MOBILE=? AND AVN_CONTACTS.EMAIL=?";
+            String sql = "SELECT contacts.MOBILE,contacts.EMAIL FROM contacts WHERE contacts.MOBILE=? AND contacts.EMAIL=?";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             statement.setString(1, mobile);
@@ -1677,10 +1663,10 @@ public class SalesPiplineDAOImpl implements SalesPiplineDAO {
         List<Product> productList = null;
         try {
 
-            String sql = "SELECT AVN_PRODUCT.PRODUCTID, AVN_PRODUCT.DESCRIPTION FROM AVN_PRODUCT "
-                    + "INNER JOIN AVN_EMPLOYEEPRODUCT "
-                    + "ON AVN_PRODUCT.PRODUCTID=AVN_EMPLOYEEPRODUCT.PRODUCTID "
-                    + "WHERE AVN_EMPLOYEEPRODUCT.EMPLOYEEID=(SELECT EMPLOYEEID FROM AVN_SYSTEMUSER WHERE USERID=?)";
+            String sql = "SELECT product.PRODUCTID, product.DESCRIPTION FROM product "
+                    + "INNER JOIN employeeproduct "
+                    + "ON product.PRODUCTID=employeeproduct.PRODUCTID "
+                    + "WHERE employeeproduct.EMPLOYEEID=(SELECT EMPLOYEEID FROM systemuser WHERE USERID=?)";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             statement.setString(1, createUser);
@@ -1727,14 +1713,14 @@ public class SalesPiplineDAOImpl implements SalesPiplineDAO {
         List<String> supervisorUsername = null;
         try {
             String sql = "SELECT SU.USERID AS USERNAME "
-                    + "FROM AVN_SYSTEMUSER SU "
-                    + "INNER JOIN AVN_EMPLOYEE EMP "
+                    + "FROM systemuser SU "
+                    + "INNER JOIN employee EMP "
                     + "ON SU.EMPLOYEEID      = EMP.EMPLOYEEID "
                     + "WHERE EMP.EMPLOYEEID IN "
-                    + "  (SELECT ES.SUPERVISORID "
-                    + "  FROM AVN_EMPLOYEESUPERVISOR ES "
+                    + "  (SELECT ES.SUPERVISOR "
+                    + "  FROM employeesupervisor ES "
                     + "  WHERE ES.EMPLOYEEID = "
-                    + "    (SELECT SU.EMPLOYEEID FROM AVN_SYSTEMUSER SU WHERE SU.USERID = ?) "
+                    + "    (SELECT SU.EMPLOYEEID FROM systemuser SU WHERE SU.USERID = ?) "
                     + "  )";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
@@ -1775,7 +1761,7 @@ public class SalesPiplineDAOImpl implements SalesPiplineDAO {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            String sql = "SELECT COUNT(*) AS CNT FROM AVN_SALESPIPELINEACCESS WHERE EMPLOYEEID = ?";
+            String sql = "SELECT COUNT(*) AS CNT FROM salespipelineaccess WHERE EMPLOYEEID = ?";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             statement.setLong(1, empid);
@@ -1812,6 +1798,5 @@ public class SalesPiplineDAOImpl implements SalesPiplineDAO {
         }
         return isValidUser;
     }
-
 
 }

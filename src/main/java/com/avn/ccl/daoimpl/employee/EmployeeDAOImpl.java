@@ -632,7 +632,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         ResultSet resultSet = null;
         long employeeid = 0;
         try {
-            String sql = "SELECT SU.EMPLOYEEID FROM AVN_SYSTEMUSER SU WHERE SU.USERID = ?";
+            String sql = "SELECT SU.EMPLOYEEID FROM  systemuser SU WHERE SU.USERID = ?";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             statement.setString(1, username);
@@ -673,10 +673,10 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         String branchcode = "";
         try {
             String sql = "SELECT BR.BRANCHCODEOLD "
-                    + "FROM AVN_SYSTEMUSER SU "
-                    + "INNER JOIN AVN_EMPLOYEE EM "
+                    + "FROM systemuser SU "
+                    + "INNER JOIN employee EM "
                     + "ON SU.EMPLOYEEID = EM.EMPLOYEEID "
-                    + "INNER JOIN AVN_BRANCH BR "
+                    + "INNER JOIN branch BR "
                     + "ON EM.BRANCHID = BR.BRANCHID "
                     + "WHERE SU.USERID  = ?";
             connection = dataSource.getConnection();

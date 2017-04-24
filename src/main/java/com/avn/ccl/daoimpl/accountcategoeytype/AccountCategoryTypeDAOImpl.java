@@ -166,7 +166,7 @@ public class AccountCategoryTypeDAOImpl implements AccountCategoryTypeDAO {
         ResultSet resultSet = null;
         List<AccountCategoryType> list = null;
         try {
-            String sql = "SELECT ACCOUNTCATEGORYTYPEID, DESCRIPTION FROM AVN_ACCOUNTCATEGORYTYPE WHERE ACCOUNTCATEGORY = ? ORDER BY SORTID";
+            String sql = "SELECT ACCOUNTCATEGORYTYPEID, DESCRIPTION FROM accountcategorytype WHERE ACCOUNTCATEGORY = ? ORDER BY SORTID";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             statement.setInt(1, Integer.valueOf(category));

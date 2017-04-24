@@ -575,8 +575,8 @@ public class SectionDAOImpl implements SectionDAO {
         List<Section> list = null;
         try {
             String sql = "SELECT SEC.SECTIONID, SEC.DESCRIPTION, SEC.SECTIONLEVEL, SEC.PARENTSECTION, SEC.ICON, SEC.ONLYPARENT, SEC.URL "
-                    + "FROM AVN_SECTION SEC "
-                    + "INNER JOIN AVN_USERROLESECTION USEC ON USEC.SECTIONID = SEC.SECTIONID "
+                    + "FROM section SEC "
+                    + "INNER JOIN userrolesection USEC ON USEC.SECTIONID = SEC.SECTIONID "
                     + "WHERE USEC.USERROLEID = ? AND PARENTSECTION IS NULL "
                     + "ORDER BY SORTID";
             connection = dataSource.getConnection();
@@ -629,8 +629,8 @@ public class SectionDAOImpl implements SectionDAO {
         List<Section> list = null;
         try {
             String sql = "SELECT SEC.SECTIONID, SEC.DESCRIPTION, SEC.SECTIONLEVEL, SEC.PARENTSECTION, SEC.ICON "
-                    + "FROM AVN_SECTION SEC "
-                    + "INNER JOIN AVN_USERROLESECTION USEC ON USEC.SECTIONID = SEC.SECTIONID "
+                    + "FROM section SEC "
+                    + "INNER JOIN userrolesection USEC ON USEC.SECTIONID = SEC.SECTIONID "
                     + "WHERE USEC.USERROLEID = ?  AND PARENTSECTION IS NOT NULL "
                     + "ORDER BY SORTID";
             connection = dataSource.getConnection();

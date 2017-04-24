@@ -7,11 +7,8 @@ package com.avn.ccl.daoimpl.calender;
 
 import com.avn.ccl.dao.calender.CalenderDAO;
 import com.avn.ccl.model.activity.Activity;
-import com.avn.ccl.model.contact.Contact;
 import com.avn.ccl.model.event.Event;
 import com.avn.ccl.model.event.eventDetail;
-import com.avn.ccl.model.lead.Lead;
-import com.avn.ccl.util.Common;
 import com.avn.ccl.util.DateTime;
 import com.avn.ccl.util.varlist.CommonVarList;
 import java.sql.Connection;
@@ -42,7 +39,7 @@ public class CalenderDAOImpl implements CalenderDAO {
         ResultSet resultSet = null;
         List<Activity> Activitylist = null;
         try {
-            String sql = "SELECT AVN_ACTIVITY.ACTIVITYDATETIME,AVN_ACTIVITY.DESCRIPTION ,AVN_ACTIVITY.CREATEDUSER,AVN_ACTIVITY.SPENTTIME,AVN_ACTIVITY.ACTIVITYID ,AVN_ACTIVITYTYPES.ACTIVITYTYPEDESCRIPTION FROM AVN_ACTIVITY INNER JOIN AVN_ACTIVITYTYPES ON AVN_ACTIVITY.ACTIVITYTYPEID=AVN_ACTIVITYTYPES.ACTIVITYTYPEID WHERE AVN_ACTIVITY.LEADID = ?";
+            String sql = "SELECT activity.ACTIVITYDATETIME,activity.DESCRIPTION ,activity.CREATEDUSER,activity.SPENTTIME,activity.ACTIVITYID ,activitytypes.ACTIVITYTYPEDESCRIPTION FROM activity INNER JOIN activitytypes ON activity.ACTIVITYTYPEID=activitytypes.ACTIVITYTYPEID WHERE activity.LEADID = ?";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             statement.setInt(1, id);
@@ -95,16 +92,16 @@ public class CalenderDAOImpl implements CalenderDAO {
             String sql = "SELECT TIT.DESCRIPTION,CON.NAMEINFULL,CON.JOBTITLE,CON.MOBILE,LED.LEADAMOUNT,PRO.DESCRIPTION  "
                     + "AS PRODUCTDESCRIPTION,RAS.ACTIVITYTYPEDESCRIPTION, "
                     + "ACT.DESCRIPTION AS ACTDESCRIPTION,ACT.ACTIVITYDATETIME "
-                    + "FROM AVN_ACTIVITY ACT "
-                    + "INNER JOIN AVN_ACTIVITYTYPES RAS  "
+                    + "FROM activity ACT "
+                    + "INNER JOIN activitytypes RAS  "
                     + "    ON RAS.ACTIVITYTYPEID=ACT.ACTIVITYTYPEID "
-                    + "INNER JOIN AVN_LEAD LED  "
+                    + "INNER JOIN lead LED  "
                     + "    ON ACT.LEADID=LED.LEADID "
-                    + "INNER JOIN AVN_CONTACTS CON "
+                    + "INNER JOIN contacts CON "
                     + "    ON CON.CONTACTID=LED.CONTACTID  "
-                    + "INNER JOIN AVN_PRODUCT PRO "
+                    + "INNER JOIN product PRO "
                     + "    ON PRO.PRODUCTID = LED.PRODUCTID "
-                    + "INNER JOIN AVN_TITLE TIT "
+                    + "INNER JOIN title TIT "
                     + "    ON TIT.TITLECODE=CON.TITLE WHERE ACT.ACTIVITYID=? ";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
@@ -159,7 +156,7 @@ public class CalenderDAOImpl implements CalenderDAO {
         ResultSet resultSet = null;
         List<Event> eventList = null;
         try {
-            String sql = "SELECT AVN_ACTIVITY.ACTIVITYSTATUS,AVN_ACTIVITY.ACTIVITYDATETIME,AVN_ACTIVITYTYPES.ACTIVITYTYPEDESCRIPTION,AVN_ACTIVITY.ACTIVITYID FROM AVN_ACTIVITY INNER JOIN AVN_ACTIVITYTYPES ON AVN_ACTIVITY.ACTIVITYTYPEID=AVN_ACTIVITYTYPES.ACTIVITYTYPEID WHERE AVN_ACTIVITY.LEADID = ?";
+            String sql = "SELECT activity.ACTIVITYSTATUS,activity.ACTIVITYDATETIME,activitytypes.ACTIVITYTYPEDESCRIPTION,activity.ACTIVITYID FROM activity INNER JOIN activitytypes ON activity.ACTIVITYTYPEID=activitytypes.ACTIVITYTYPEID WHERE activity.LEADID = ?";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             statement.setInt(1, id);
@@ -258,14 +255,14 @@ public class CalenderDAOImpl implements CalenderDAO {
         ResultSet resultSet = null;
         List<Event> eventList = null;
         try {
-            String sql = "SELECT AVN_ACTIVITY.ACTIVITYDATETIME, "
-                    + "  AVN_ACTIVITY.ACTIVITYSTATUS, "
-                    + "  AVN_ACTIVITYTYPES.ACTIVITYTYPEDESCRIPTION, "
-                    + "  AVN_ACTIVITY.ACTIVITYID "
-                    + "FROM AVN_ACTIVITY "
-                    + "INNER JOIN AVN_ACTIVITYTYPES "
-                    + "ON AVN_ACTIVITY.ACTIVITYTYPEID = AVN_ACTIVITYTYPES.ACTIVITYTYPEID "
-                    + "WHERE AVN_ACTIVITY.CREATEDUSER = ?";
+            String sql = "SELECT activity.ACTIVITYDATETIME, "
+                    + "  activity.ACTIVITYSTATUS, "
+                    + "  activitytypes.ACTIVITYTYPEDESCRIPTION, "
+                    + "  activity.ACTIVITYID "
+                    + "FROM activity "
+                    + "INNER JOIN activitytypes "
+                    + "ON activity.ACTIVITYTYPEID = activitytypes.ACTIVITYTYPEID "
+                    + "WHERE activity.CREATEDUSER = ?";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             statement.setString(1, username);
@@ -320,16 +317,16 @@ public class CalenderDAOImpl implements CalenderDAO {
         ResultSet resultSet = null;
         List<Event> eventList = null;
         try {
-            String sql = "SELECT AVN_ACTIVITY.ACTIVITYDATETIME, "
-                    + "  AVN_ACTIVITY.ACTIVITYSTATUS, "
-                    + "  AVN_ACTIVITYTYPES.ACTIVITYTYPEDESCRIPTION, "
-                    + "  AVN_ACTIVITY.ACTIVITYID "
-                    + "FROM AVN_ACTIVITY "
-                    + "INNER JOIN AVN_ACTIVITYTYPES "
-                    + "ON AVN_ACTIVITY.ACTIVITYTYPEID=AVN_ACTIVITYTYPES.ACTIVITYTYPEID "
-                    + "INNER JOIN AVN_LEAD "
-                    + "ON AVN_ACTIVITY.LEADID   = AVN_LEAD.LEADID "
-                    + "WHERE AVN_LEAD.CONTACTID = ?";
+            String sql = "SELECT activity.ACTIVITYDATETIME, "
+                    + "  activity.ACTIVITYSTATUS, "
+                    + "  activitytypes.ACTIVITYTYPEDESCRIPTION, "
+                    + "  activity.ACTIVITYID "
+                    + "FROM activity "
+                    + "INNER JOIN activitytypes "
+                    + "ON activity.ACTIVITYTYPEID=activitytypes.ACTIVITYTYPEID "
+                    + "INNER JOIN lead "
+                    + "ON activity.LEADID   = lead.LEADID "
+                    + "WHERE lead.CONTACTID = ?";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             statement.setInt(1, contactid);
@@ -383,14 +380,14 @@ public class CalenderDAOImpl implements CalenderDAO {
         ResultSet resultSet = null;
         List<Event> eventList = null;
         try {
-            String sql = "SELECT AVN_ACTIVITY.NEXTACTIVITYDATETIME,  "
-                    + "  AVN_ACTIVITYTYPES.ACTIVITYTYPEDESCRIPTION,  "
-                    + "  AVN_ACTIVITY.ACTIVITYID  "
-                    + "FROM AVN_ACTIVITY  "
-                    + "INNER JOIN AVN_ACTIVITYTYPES  "
-                    + "ON AVN_ACTIVITY.NEXTACTIVITYTYPEID    = AVN_ACTIVITYTYPES.ACTIVITYTYPEID  "
-                    + "WHERE AVN_ACTIVITY.CREATEDUSER        = ?  "
-                    + "AND AVN_ACTIVITY.NEXTACTIVITYDATETIME > = CURRENT_TIMESTAMP";
+            String sql = "SELECT activity.NEXTACTIVITYDATETIME,  "
+                    + "  activitytypes.ACTIVITYTYPEDESCRIPTION,  "
+                    + "  activity.ACTIVITYID  "
+                    + "FROM activity  "
+                    + "INNER JOIN activitytypes  "
+                    + "ON activity.NEXTACTIVITYTYPEID    = activitytypes.ACTIVITYTYPEID  "
+                    + "WHERE activity.CREATEDUSER        = ?  "
+                    + "AND activity.NEXTACTIVITYDATETIME > = CURRENT_TIMESTAMP";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             statement.setString(1, username);
@@ -437,7 +434,7 @@ public class CalenderDAOImpl implements CalenderDAO {
         List<Activity> agentLeadid = null;
 
         try {
-            String sql = "SELECT NAMEINFULL,AVN_LEAD.LEADID FROM AVN_CONTACTS INNER JOIN AVN_LEAD ON AVN_CONTACTS.CONTACTID=AVN_LEAD.CONTACTID WHERE AVN_LEAD.CREATEDUSER = ?";
+            String sql = "SELECT NAMEINFULL,lead.LEADID FROM contacts INNER JOIN lead ON contacts.CONTACTID=lead.CONTACTID WHERE lead.CREATEDUSER = ?";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             statement.setString(1, name);

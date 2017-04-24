@@ -229,12 +229,12 @@ public class LeadDAOImpl implements LeadDAO {
     @Override
     public int getContactLeadCount(long contactid, long productid) throws SQLException {
         String query = "SELECT COUNT(*) AS CNT "
-                + "FROM AVN_LEAD LD "
+                + "FROM lead LD "
                 + "WHERE LD.CONTACTID IN "
                 + "  (SELECT CT.CONTACTID "
-                + "  FROM AVN_CONTACTS CT "
+                + "  FROM contacts CT "
                 + "  WHERE CT.MOBILE = "
-                + "    (SELECT CTN.MOBILE FROM AVN_CONTACTS CTN WHERE CTN.CONTACTID = ?) "
+                + "    (SELECT CTN.MOBILE FROM contacts CTN WHERE CTN.CONTACTID = ?) "
                 + "  ) "
                 + "AND LD.PRODUCTID = ? "
                 + "AND LD.STATUS    = ?";
@@ -249,12 +249,12 @@ public class LeadDAOImpl implements LeadDAO {
     @Override
     public long getFirstLeadIdForProductAndContact(long contactid, long productid) throws SQLException {
         String query = "SELECT MIN(LD.LEADID) AS LEADID "
-                + "FROM AVN_LEAD LD "
+                + "FROM lead LD "
                 + "WHERE LD.CONTACTID IN "
                 + "  (SELECT CT.CONTACTID "
-                + "  FROM AVN_CONTACTS CT "
+                + "  FROM contacts CT "
                 + "  WHERE CT.MOBILE = "
-                + "    (SELECT CTN.MOBILE FROM AVN_CONTACTS CTN WHERE CTN.CONTACTID = ?) "
+                + "    (SELECT CTN.MOBILE FROM contacts CTN WHERE CTN.CONTACTID = ?) "
                 + "  ) "
                 + "AND LD.PRODUCTID = ? "
                 + "AND LD.STATUS    = ?";

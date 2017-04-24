@@ -968,7 +968,7 @@ public class UserDAOImpl implements UserDAO {
         ResultSet resultSet = null;
         int userRole = 0;
         try {
-            String sql = "SELECT USERROLE FROM AVN_SYSTEMUSER WHERE USERID = ?";
+            String sql = "SELECT USERROLE FROM systemuser WHERE USERID = ?";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             statement.setString(1, username);

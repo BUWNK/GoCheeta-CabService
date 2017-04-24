@@ -130,11 +130,11 @@ public class ProductDAOImpl implements ProductDAO {
         try {
             String sql = "SELECT PRD.PRODUCTID, "
                     + "  PRD.DESCRIPTION "
-                    + "FROM AVN_PRODUCT PRD "
-                    + "INNER JOIN AVN_EMPLOYEEPRODUCT EMPPR "
+                    + "FROM product PRD "
+                    + "INNER JOIN employeeproduct EMPPR "
                     + "ON PRD.PRODUCTID       = EMPPR.PRODUCTID "
                     + "WHERE EMPPR.EMPLOYEEID = "
-                    + "  (SELECT EMPLOYEEID FROM AVN_SYSTEMUSER WHERE USERID = ? "
+                    + "  (SELECT EMPLOYEEID FROM systemuser WHERE USERID = ? "
                     + "  ) "
                     + "AND PRD.STATUS = ?";
 

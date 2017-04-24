@@ -142,10 +142,10 @@ public class SalesPiplineController {
                 createUser = colls.next();
                 break;
             }
-            String whereContact = "WHERE CREATEDUSER= '" + createUser + "'";
-            String whereLead = "WHERE AVN_LEAD.STATUS = '37' AND AVN_LEAD.CREATEDUSER= '" + createUser + "'";
-            String whereClosed = "WHERE AVN_LEAD.STATUS = '38' AND AVN_LEAD.CREATEDUSER= '" + createUser + "'";
-            String whereLost = "WHERE AVN_LEAD.STATUS = '39' AND AVN_LEAD.CREATEDUSER= '" + createUser + "'";
+            String whereContact = "WHERE contacts.CREATEDUSER= '" + createUser + "'";
+            String whereLead = "WHERE lead.STATUS = '37' AND lead.CREATEDUSER= '" + createUser + "'";
+            String whereClosed = "WHERE lead.STATUS = '38' AND lead.CREATEDUSER= '" + createUser + "'";
+            String whereLost = "WHERE lead.STATUS = '39' AND lead.CREATEDUSER= '" + createUser + "'";
             model.put("contactlist", salespiplinedaoimpl.getContact(whereContact));
             model.put("Opportunitylist", salespiplinedaoimpl.getOpportunityLostReasonsDropdownList());
             model.put("productList", productdaoimpl.getProductDropdownListPipeline(createUser));
@@ -304,7 +304,7 @@ public class SalesPiplineController {
                 lead.setCampignId(0);
             }
             lead.setPromationCode(rsp.getString("promationCode"));
-            lead.setAccouncount(rsp.getInt("accountcount"));
+//            lead.setAccouncount(rsp.getInt("accountcount"));
             long leadid = salespiplinedaoimpl.insertLead(lead, userName);
             if (leadDAOImpl.getContactLeadCount(rsp.getInt("contact_id"), rsp.getInt("productid")) > 0) {
                 List<String> supervisors = salespiplinedaoimpl.getSupervisorUsernameByEmployeeUseename(userName);
@@ -433,7 +433,7 @@ public class SalesPiplineController {
         value = this.frountDeleteSpace(serachContact);
         String where = "WHERE ";
         if (!createUser.isEmpty()) {
-            where = where + " CREATEDUSER= '" + createUser + "'";
+            where = where + "  contacts.CREATEDUSER= '" + createUser + "'";
         }
 //        if (!customerType.isEmpty()) {
 //            if (customerType.equals("NEW")) {
@@ -457,9 +457,9 @@ public class SalesPiplineController {
 
         String value = "";
         value = this.frountDeleteSpace(serachLead);
-        String where = "WHERE AVN_LEAD.STATUS = '37'";
+        String where = "WHERE lead.STATUS = '37'";
         if (!createUser.isEmpty()) {
-            where = where + " AND AVN_LEAD.CREATEDUSER= '" + createUser + "'";
+            where = where + " AND lead.CREATEDUSER= '" + createUser + "'";
         }
 //        if (!productId.isEmpty()) {
 //            where = where + " AND AVN_LEAD.PRODUCTID= " + productId;
@@ -468,7 +468,7 @@ public class SalesPiplineController {
 //            where = where + " AND AVN_LEAD.FORCASTUNTILDATE >= to_date( '" + forCastUntilDate + "', 'yyyy-MM-dd' ) ";
 //        }
         if (!value.isEmpty()) {
-            where = where + " AND (UPPER(AVN_CONTACTS.JOBTITLE) LIKE UPPER('%" + value + "%') OR UPPER(AVN_CONTACTS.NAMEINFULL) LIKE UPPER('%" + value + "%') OR UPPER(AVN_CONTACTS.MOBILE) LIKE UPPER('%" + value + "%') OR UPPER(AVN_LEAD.LEADAMOUNT) LIKE UPPER('%" + value + "%'))";
+            where = where + " AND (UPPER(contacts.JOBTITLE) LIKE UPPER('%" + value + "%') OR UPPER(contacts.NAMEINFULL) LIKE UPPER('%" + value + "%') OR UPPER(contacts.MOBILE) LIKE UPPER('%" + value + "%') OR UPPER(lead.LEADAMOUNT) LIKE UPPER('%" + value + "%'))";
         }
 
         return where;
@@ -484,9 +484,9 @@ public class SalesPiplineController {
 
         String value = "";
         value = this.frountDeleteSpace(serachLead);
-        String where = "WHERE AVN_LEAD.STATUS = '38'";
+        String where = "WHERE lead.STATUS = '38'";
         if (!createUser.isEmpty()) {
-            where = where + " AND AVN_LEAD.CREATEDUSER= '" + createUser + "'";
+            where = where + " AND lead.CREATEDUSER= '" + createUser + "'";
         }
 //        if (!productId.isEmpty()) {
 //            where = where + " AND AVN_LEAD.PRODUCTID= " + productId;
@@ -495,7 +495,7 @@ public class SalesPiplineController {
 //            where = where + " AND AVN_LEAD.FORCASTUNTILDATE >= to_date( '" + forCastUntilDate + "', 'yyyy-MM-dd' ) ";
 //        }
         if (!value.isEmpty()) {
-            where = where + " AND (UPPER(AVN_CONTACTS.JOBTITLE) LIKE UPPER('%" + value + "%') OR UPPER(AVN_CONTACTS.NAMEINFULL) LIKE UPPER('%" + value + "%') OR UPPER(AVN_CONTACTS.MOBILE) LIKE UPPER('%" + value + "%') OR UPPER(AVN_LEAD.LEADAMOUNT) LIKE UPPER('%" + value + "%'))";
+            where = where + " AND (UPPER(contacts.JOBTITLE) LIKE UPPER('%" + value + "%') OR UPPER(contacts.NAMEINFULL) LIKE UPPER('%" + value + "%') OR UPPER(contacts.MOBILE) LIKE UPPER('%" + value + "%') OR UPPER(lead.LEADAMOUNT) LIKE UPPER('%" + value + "%'))";
         }
         if (!lostWonDuration.isEmpty()) {
 
@@ -509,7 +509,7 @@ public class SalesPiplineController {
                 cal_backdate.set(Calendar.YEAR, previousYear);
                 Date previous_year = cal_backdate.getTime();
 
-                where = where + " AND AVN_LEAD.FORCASTUNTILDATE >= TO_DATE ('" + df.format(previous_year) + "', 'yyyy-MM-dd') AND AVN_LEAD.FORCASTUNTILDATE <= TO_DATE ('" + df.format(current_year) + "', 'yyyy-MM-dd') ";
+                where = where + " AND lead.FORCASTUNTILDATE >= STR_TO_DATE ('" + df.format(previous_year) + "', 'yyyy-MM-dd') AND lead.FORCASTUNTILDATE <= STR_TO_DATE ('" + df.format(current_year) + "', 'yyyy-MM-dd') ";
 
             }
             if (lostWonDuration.equals("QUARTER")) {
@@ -518,7 +518,7 @@ public class SalesPiplineController {
                 cal_backdate.set(Calendar.MONTH, previousQuarter);
                 Date previous_quarter = cal_backdate.getTime();
 
-                where = where + " AND AVN_LEAD.FORCASTUNTILDATE >= TO_DATE ('" + df.format(previous_quarter) + "', 'yyyy-MM-dd') AND AVN_LEAD.FORCASTUNTILDATE <= TO_DATE ('" + df.format(current_year) + "', 'yyyy-MM-dd') ";
+                where = where + " AND lead.FORCASTUNTILDATE >= STR_TO_DATE ('" + df.format(previous_quarter) + "', 'yyyy-MM-dd') AND lead.FORCASTUNTILDATE <= STR_TO_DATE ('" + df.format(current_year) + "', 'yyyy-MM-dd') ";
 
             }
             if (lostWonDuration.equals("MONTH")) {
@@ -527,7 +527,7 @@ public class SalesPiplineController {
                 cal_backdate.set(Calendar.MONTH, previousQuarter);
                 Date previous_month = cal_backdate.getTime();
 
-                where = where + " AND AVN_LEAD.FORCASTUNTILDATE >= TO_DATE ('" + df.format(previous_month) + "', 'yyyy-MM-dd') AND AVN_LEAD.FORCASTUNTILDATE <= TO_DATE ('" + df.format(current_year) + "', 'yyyy-MM-dd') ";
+                where = where + " AND lead.FORCASTUNTILDATE >= STR_TO_DATE ('" + df.format(previous_month) + "', 'yyyy-MM-dd') AND lead.FORCASTUNTILDATE <= STR_TO_DATE ('" + df.format(current_year) + "', 'yyyy-MM-dd') ";
 
             }
 
@@ -545,9 +545,9 @@ public class SalesPiplineController {
 
         String value = "";
         value = this.frountDeleteSpace(serachLead);
-        String where = "WHERE AVN_LEAD.STATUS = '39'";
+        String where = "WHERE lead.STATUS = '39'";
         if (!createUser.isEmpty()) {
-            where = where + " AND AVN_LEAD.CREATEDUSER= '" + createUser + "'";
+            where = where + " AND lead.CREATEDUSER= '" + createUser + "'";
         }
 //        if (!productId.isEmpty()) {
 //            where = where + " AND AVN_LEAD.PRODUCTID= " + productId;
@@ -556,7 +556,7 @@ public class SalesPiplineController {
 //            where = where + " AND AVN_LEAD.FORCASTUNTILDATE >= to_date( '" + forCastUntilDate + "', 'yyyy-MM-dd' ) ";
 //        }
         if (!value.isEmpty()) {
-            where = where + " AND (UPPER(AVN_CONTACTS.JOBTITLE) LIKE UPPER('%" + value + "%') OR UPPER(AVN_CONTACTS.NAMEINFULL) LIKE UPPER('%" + value + "%') OR UPPER(AVN_CONTACTS.MOBILE) LIKE UPPER('%" + value + "%') OR UPPER(AVN_LEAD.LEADAMOUNT) LIKE UPPER('%" + value + "%'))";
+            where = where + " AND (UPPER(contacts.JOBTITLE) LIKE UPPER('%" + value + "%') OR UPPER(contacts.NAMEINFULL) LIKE UPPER('%" + value + "%') OR UPPER(contacts.MOBILE) LIKE UPPER('%" + value + "%') OR UPPER(lead.LEADAMOUNT) LIKE UPPER('%" + value + "%'))";
         }
         if (!lostWonDuration.isEmpty()) {
 
@@ -570,7 +570,7 @@ public class SalesPiplineController {
                 cal_backdate.set(Calendar.YEAR, previousYear);
                 Date previous_year = cal_backdate.getTime();
 
-                where = where + " AND AVN_LEAD.FORCASTUNTILDATE >= TO_DATE ('" + df.format(previous_year) + "', 'yyyy-MM-dd') AND AVN_LEAD.FORCASTUNTILDATE <= TO_DATE ('" + df.format(current_year) + "', 'yyyy-MM-dd') ";
+                where = where + " AND lead.FORCASTUNTILDATE >= STR_TO_DATE ('" + df.format(previous_year) + "', 'yyyy-MM-dd') AND lead.FORCASTUNTILDATE <= STR_TO_DATE ('" + df.format(current_year) + "', 'yyyy-MM-dd') ";
 
             }
             if (lostWonDuration.equals("QUARTER")) {
@@ -579,7 +579,7 @@ public class SalesPiplineController {
                 cal_backdate.set(Calendar.MONTH, previousQuarter);
                 Date previous_quarter = cal_backdate.getTime();
 
-                where = where + " AND AVN_LEAD.FORCASTUNTILDATE >= TO_DATE ('" + df.format(previous_quarter) + "', 'yyyy-MM-dd') AND AVN_LEAD.FORCASTUNTILDATE <= TO_DATE ('" + df.format(current_year) + "', 'yyyy-MM-dd') ";
+                where = where + " AND lead.FORCASTUNTILDATE >= STR_TO_DATE ('" + df.format(previous_quarter) + "', 'yyyy-MM-dd') AND lead.FORCASTUNTILDATE <= STR_TO_DATE ('" + df.format(current_year) + "', 'yyyy-MM-dd') ";
 
             }
             if (lostWonDuration.equals("MONTH")) {
@@ -588,7 +588,7 @@ public class SalesPiplineController {
                 cal_backdate.set(Calendar.MONTH, previousQuarter);
                 Date previous_month = cal_backdate.getTime();
 
-                where = where + " AND AVN_LEAD.FORCASTUNTILDATE >= TO_DATE ('" + df.format(previous_month) + "', 'yyyy-MM-dd') AND AVN_LEAD.FORCASTUNTILDATE <= TO_DATE ('" + df.format(current_year) + "', 'yyyy-MM-dd') ";
+                where = where + " AND lead.FORCASTUNTILDATE >= STR_TO_DATE ('" + df.format(previous_month) + "', 'yyyy-MM-dd') AND lead.FORCASTUNTILDATE <= STR_TO_DATE ('" + df.format(current_year) + "', 'yyyy-MM-dd') ";
 
             }
         }
@@ -618,10 +618,10 @@ public class SalesPiplineController {
         String myJson = "";
         try {
             String createUser = (String) session.getAttribute("username");
-            String whereContact = "WHERE CREATEDUSER= '" + createUser + "'";
-            String whereLead = "WHERE AVN_LEAD.STATUS = '37' AND AVN_LEAD.CREATEDUSER= '" + createUser + "'";
-            String whereClosed = "WHERE AVN_LEAD.STATUS = '38' AND AVN_LEAD.CREATEDUSER= '" + createUser + "'";
-            String whereLost = "WHERE AVN_LEAD.STATUS = '39' AND AVN_LEAD.CREATEDUSER= '" + createUser + "'";
+            String whereContact = "WHERE  contacts.CREATEDUSER= '" + createUser + "'";
+            String whereLead = "WHERE lead.STATUS = '37' AND lead.CREATEDUSER= '" + createUser + "'";
+            String whereClosed = "WHERE lead.STATUS = '38' AND lead.CREATEDUSER= '" + createUser + "'";
+            String whereLost = "WHERE lead.STATUS = '39' AND lead.CREATEDUSER= '" + createUser + "'";
             JSONObject contactList = new JSONObject();
             contactList.put("CONTACTLIST", salespiplinedaoimpl.getContact(this.setContactListWhere(rsp))); //contacts
             JSONObject leadList = new JSONObject();
