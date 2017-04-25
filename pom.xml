@@ -2,10 +2,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.avn.ccl</groupId>
-    <artifactId>AFFINITI</artifactId>
+    <artifactId>AFFINITI_CDB</artifactId>
     <packaging>war</packaging>
-    <version>V1.71</version>
-    <name>AFFINITI</name>
+    <version>V1.00</version>
+    <name>AFFINITI_CDB</name>
 
     <properties>
         <jdk.version>1.7</jdk.version>
