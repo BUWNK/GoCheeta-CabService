@@ -86,7 +86,7 @@ public class ProductDAOImpl implements ProductDAO {
         ResultSet resultSet = null;
         Map<String, String> list = null;
         try {
-            String sql = "SELECT PRODUCTID, DESCRIPTION FROM AVN_PRODUCT WHERE STATUS = ? ORDER BY SORTID";
+            String sql = "SELECT PRODUCTID, DESCRIPTION FROM product WHERE STATUS = ? ORDER BY SORTID";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             statement.setInt(1, MasterDataVarList.CCL_CODE_STATUS_ACTIVE);

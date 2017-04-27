@@ -85,7 +85,7 @@ public class StatusDAOImpl implements StatusDAO {
         ResultSet resultSet = null;
         Map<String, String> list = null;
         try {
-            String sql = "SELECT STATUSID, DESCRIPTION FROM AVN_STATUS WHERE CATEGORYID = ? ORDER BY SORTID";
+            String sql = "SELECT STATUSID, DESCRIPTION FROM status WHERE CATEGORYID = ? ORDER BY SORTID";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             statement.setInt(1, statuscategory);

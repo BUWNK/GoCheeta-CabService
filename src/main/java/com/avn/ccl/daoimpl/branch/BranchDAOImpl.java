@@ -85,7 +85,7 @@ public class BranchDAOImpl implements BranchDAO {
         ResultSet resultSet = null;
         Map<String, String> branchList = null;
         try {
-            String sql = "SELECT BRANCHID, ALIASNAME FROM AVN_BRANCH WHERE TERRITORYID=? ORDER BY SORTID";
+            String sql = "SELECT BRANCHID, ALIASNAME FROM branch WHERE TERRITORYID=? ORDER BY SORTID";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             statement.setInt(1, MasterDataVarList.AFFINITI_CODE_TERRITORY_BRANCH);

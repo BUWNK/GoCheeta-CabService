@@ -991,14 +991,14 @@ public class CaseDAOImpl implements CaseDAO {
         Map<String, String> assigneeList = null;
         try {
             String sql = "SELECT E.EMPLOYEEID,  "
-                    + "                    E.FIRSTNAME  "
+                    + "                    E.NAMEINFULL  "
                     + "                 || ' - '  "
                     + "                  || B.BRANCHCODEOLD  "
                     + "                  || ' - '  "
-                    + "                   || NVL(E.EMPLOYEELEVEL,'') AS ASSIGNEE  "
-                    + "                FROM AVN_EMPLOYEE E  "
-                    + "                INNER JOIN AVN_TERRITORYMAPEMPLOYEE TE ON E.EMPLOYEEID=TE.EMPLOYEEID "
-                    + "               INNER JOIN AVN_BRANCH B  "
+                    + "                   || IFNULL(E.EMPLOYEELEVEL,'') AS ASSIGNEE  "
+                    + "                FROM employee E  "
+                    + "                INNER JOIN territorymapemployee TE ON E.EMPLOYEEID=TE.EMPLOYEEID "
+                    + "               INNER JOIN branch B  "
                     + "                 ON TE.TERRITORYMAPID = B.BRANCHID  "
                     + "              WHERE UPPER(E.EMPLOYEELEVEL) > 'LEVEL 2' ORDER BY E.FIRSTNAME";
             connection = dataSource.getConnection();

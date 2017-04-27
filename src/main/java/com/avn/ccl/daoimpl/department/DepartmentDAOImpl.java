@@ -84,7 +84,7 @@ public class DepartmentDAOImpl implements DepartmentDAO {
         ResultSet resultSet = null;
         Map<String, String> list = null;
         try {
-            String sql = "SELECT DEPARTMENTID, DESCRIPTION FROM AVN_DEPARTMENT ORDER BY SORTID";
+            String sql = "SELECT DEPARTMENTID, DESCRIPTION FROM department ORDER BY SORTID";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             resultSet = statement.executeQuery();

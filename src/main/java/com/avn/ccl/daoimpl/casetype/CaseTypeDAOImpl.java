@@ -84,7 +84,7 @@ public class CaseTypeDAOImpl implements CaseTypeDAO {
         ResultSet resultSet = null;
         Map<String, String> list = null;
         try {
-            String sql = "SELECT CASETYPEID, DESCRIPTION FROM AVN_CASETYPE ORDER BY SORTID";
+            String sql = "SELECT CASETYPEID, DESCRIPTION FROM tickettype ORDER BY SORTID";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             resultSet = statement.executeQuery();

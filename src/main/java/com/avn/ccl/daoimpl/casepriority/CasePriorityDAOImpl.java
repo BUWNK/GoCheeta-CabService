@@ -84,7 +84,7 @@ public class CasePriorityDAOImpl implements CasePriorityDAO {
         ResultSet resultSet = null;
         Map<String, String> list = null;
         try {
-            String sql = "SELECT CASEPRIORITYID, DESCRIPTION FROM AVN_CASEPRIORITY ORDER BY SORTID";
+            String sql = "SELECT CASEPRIORITYID, DESCRIPTION FROM ticketpriority  ORDER BY SORTID";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             resultSet = statement.executeQuery();

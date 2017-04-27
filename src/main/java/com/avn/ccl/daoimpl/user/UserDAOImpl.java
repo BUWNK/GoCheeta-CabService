@@ -1008,7 +1008,7 @@ public class UserDAOImpl implements UserDAO {
         ResultSet resultSet = null;
         Map<String, String> list = null;
         try {
-            String sql = "SELECT USERID FROM AVN_SYSTEMUSER ORDER BY USERID";
+            String sql = "SELECT USERID FROM systemuser ORDER BY USERID";
             connection = dataSource.getConnection();
             statement = connection.prepareStatement(sql);
             resultSet = statement.executeQuery();
