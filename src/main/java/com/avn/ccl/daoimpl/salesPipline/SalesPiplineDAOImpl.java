@@ -10,6 +10,7 @@ import com.avn.ccl.model.account.Account;
 import com.avn.ccl.model.contact.Contact;
 import com.avn.ccl.model.lead.Lead;
 import com.avn.ccl.model.product.Product;
+import com.avn.ccl.model.ticketmgt.Ticket;
 import com.avn.ccl.model.userrolehiarachy.UserRoleHiarachy;
 import com.avn.ccl.util.Common;
 import com.avn.ccl.util.DateTime;
@@ -133,6 +134,7 @@ public class SalesPiplineDAOImpl implements SalesPiplineDAO {
                     + "  VALUES "
                     + "  (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, ?, ?, ?, ?)";
             connection = dataSource.getConnection();
+            connection.setAutoCommit(false);
             String[] generatedColumns = {"LEADID"};
             statement = connection.prepareStatement(sql, generatedColumns);
             statement.setInt(1, lead.getProductid());
@@ -166,7 +168,152 @@ public class SalesPiplineDAOImpl implements SalesPiplineDAO {
             while (resultSet.next()) {
                 leadid = resultSet.getLong(1);
             }
+
         } catch (SQLException ex) {
+            connection.rollback();
+            throw ex;
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (Exception exception) {
+                }
+            }
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (Exception ex) {
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (Exception ex) {
+                }
+            }
+        }
+        return leadid;
+    }
+
+    public long insertLeadAndTicket(Lead lead, String username, Ticket ticket) throws Exception {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        long leadid = 0;
+        try {
+            String sql = "INSERT "
+                    + "INTO lead "
+                    + "  ( "
+                    + "    PRODUCTID, "
+                    + "    CONTACTID, "
+                    + "    LEADAMOUNT, "
+                    + "    CREATEDUSER, "
+                    + "    STATUS, "
+                    + "    FORCASTUNTILDATE, "
+                    + "    CREATEDDATETIME, "
+                    + "    LASTUPDATEDATETIME, "
+                    + "    CHANNELID, "
+                    + "    CAMPAIGNID, "
+                    + "    PROMOTIONCODE, "
+                    + "    ACCOUNTCOUNT "
+                    + "  ) "
+                    + "  VALUES "
+                    + "  (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, ?, ?, ?, ?)";
+            connection = dataSource.getConnection();
+            connection.setAutoCommit(false);
+            String[] generatedColumns = {"LEADID"};
+            statement = connection.prepareStatement(sql, generatedColumns);
+            statement.setInt(1, lead.getProductid());
+            statement.setLong(2, lead.getContactid());
+            if (lead.getLeadamount() == null || lead.getLeadamount().compareTo(BigDecimal.ZERO) == 0) {
+                statement.setNull(3, Types.BIGINT);
+            } else {
+                statement.setBigDecimal(3, lead.getLeadamount());
+            }
+            statement.setString(4, username);
+            statement.setString(5, "37");
+            if (lead.getForcastuntildate() == null) {
+                statement.setNull(6, Types.TIMESTAMP);
+            } else {
+                statement.setTimestamp(6, new Timestamp(Common.getDateFromString("yyyy-MM-dd", lead.getForcastuntildate()).getTime()));
+            }
+            if (lead.getChannelId() == 0) {
+                statement.setNull(7, Types.INTEGER);
+            } else {
+                statement.setInt(7, lead.getChannelId());
+            }
+            if (lead.getCampignId() == 0) {
+                statement.setNull(8, Types.INTEGER);
+            } else {
+                statement.setInt(8, lead.getCampignId());
+            }
+            statement.setString(9, lead.getPromationCode());
+            statement.setInt(10, lead.getAccouncount());
+            statement.executeUpdate();
+            resultSet = statement.getGeneratedKeys();
+            while (resultSet.next()) {
+                leadid = resultSet.getLong(1);
+            }
+
+            sql = "INSERT "
+                    + "INTO ticket "
+                    + "  ( "
+                    + "    TICKETDATE, "
+                    + "    TICKETTYPEID, "
+                    + "    PRIORITYID, "
+                    + "    PRODUCTID, "
+                    + "    ASSIGNEEID, "
+                    + "    CONTACTID, "
+                    + "    STATUS, "
+                    + "    SUBJECT, "
+                    + "    DESCRIPTION, "
+                    + "    CREATEDDATETIME, "
+                    + "    LASTUPDATEDDATETIME, "
+                    + "    CREATEDUSER "
+                    + "  ) "
+                    + "  VALUES "
+                    + "  (CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, ?)";
+
+            String[] generatedColumns1 = {"TICKETID"};
+            statement = connection.prepareStatement(sql, generatedColumns1);
+            statement.setInt(1, ticket.getTicketTypeId());
+            statement.setInt(2, ticket.getPriorityId());
+            statement.setInt(3, ticket.getProductId());
+            statement.setInt(4, ticket.getAssigneeId());
+            statement.setInt(5, ticket.getContactId());
+            statement.setInt(6, ticket.getStatus());
+            statement.setString(7, ticket.getSubject());
+            statement.setString(8, ticket.getDescription());
+            statement.setString(9, username);
+            statement.executeUpdate();
+            resultSet = statement.getGeneratedKeys();
+            long ticketId = 0;
+            while (resultSet.next()) {
+                ticketId = resultSet.getLong(1);
+            }
+            sql = "INSERT "
+                    + "INTO tickethistory "
+                    + "  ( "
+                    + "    TICKETID, "
+                    + "    PRODUCTID, "
+                    + "    ASSIGNEEID, "
+                    + "    STATUS, "
+                    + "    CREATEDDATETIME, "
+                    + "    LASTUPDATEDDATETIME, "
+                    + "    CREATEDUSER "
+                    + "  ) "
+                    + "  VALUES "
+                    + "  (?, ?, ?, ? , CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, ?)";
+            statement = connection.prepareStatement(sql);
+            statement.setLong(1, ticketId);
+            statement.setInt(2, ticket.getProductId());
+            statement.setInt(3, ticket.getAssigneeId());
+            statement.setInt(4, ticket.getStatus());
+            statement.setString(5, username);
+            statement.executeUpdate();
+            connection.commit();
+        } catch (SQLException ex) {
+            connection.rollback();
             throw ex;
         } finally {
             if (resultSet != null) {
@@ -1797,6 +1944,46 @@ public class SalesPiplineDAOImpl implements SalesPiplineDAO {
             }
         }
         return isValidUser;
+    }
+
+    public int getAssigneeId(String username) throws Exception {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        int assigneeId = 0;
+        try {
+            String sql = "SELECT EMPLOYEEID FROM systemuser WHERE USERID=?";
+            connection = dataSource.getConnection();
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, username);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                assigneeId = resultSet.getInt("EMPLOYEEID");
+            }
+        } catch (Exception exception) {
+            throw exception;
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (Exception e) {
+                }
+            }
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (Exception e) {
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (Exception e) {
+                }
+            }
+        }
+
+        return assigneeId;
     }
 
 }

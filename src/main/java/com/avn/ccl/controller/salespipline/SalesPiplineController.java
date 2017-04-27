@@ -28,6 +28,7 @@ import com.avn.ccl.model.notification.NotificationMail;
 import com.avn.ccl.model.notificationtemplate.NotificationTemplate;
 import com.avn.ccl.model.occupation.Occupation;
 import com.avn.ccl.model.remindernotification.ReminderNotification;
+import com.avn.ccl.model.ticketmgt.Ticket;
 import com.avn.ccl.util.Common;
 import com.avn.ccl.util.varlist.CommonVarList;
 import com.avn.ccl.util.varlist.MasterDataVarList;
@@ -281,6 +282,7 @@ public class SalesPiplineController {
     public @ResponseBody
     String insertLead(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
         Lead lead = new Lead();
+        Ticket ticket = new Ticket();
         JSONObject success = new JSONObject();
         String myJson = "";
         String userName = (String) session.getAttribute("username");
@@ -304,8 +306,16 @@ public class SalesPiplineController {
                 lead.setCampignId(0);
             }
             lead.setPromationCode(rsp.getString("promationCode"));
-//            lead.setAccouncount(rsp.getInt("accountcount"));
-            long leadid = salespiplinedaoimpl.insertLead(lead, userName);
+
+            ticket.setTicketTypeId(3);
+            ticket.setPriorityId(2);
+            ticket.setProductId(rsp.getInt("productid"));
+            ticket.setAssigneeId(salespiplinedaoimpl.getAssigneeId(userName));
+            ticket.setContactId(rsp.getInt("contact_id"));
+            ticket.setStatus(1);
+            ticket.setSubject("Lead Ticket");
+            ticket.setDescription(rsp.getString("amount"));
+            long leadid = salespiplinedaoimpl.insertLeadAndTicket(lead, userName, ticket);
             if (leadDAOImpl.getContactLeadCount(rsp.getInt("contact_id"), rsp.getInt("productid")) > 0) {
                 List<String> supervisors = salespiplinedaoimpl.getSupervisorUsernameByEmployeeUseename(userName);
                 ReminderNotification notification = new ReminderNotification();
